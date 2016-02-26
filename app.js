@@ -20,11 +20,15 @@ chokidar.watch(monitorPath).on('all', (event, filepath) => {
   const filename = path.basename(filepath);
   const noext = filename.slice(0, filename.length - path.extname(filename).length);
   files[noext] = true;
-  io.emit('file changed', '');
+  io.emit('file created', noext);
 });
 
 app.get('/files', (req, res, next) => {
   res.json(Object.keys(files));
+});
+
+app.get('/files/:id', function (req, res, next) {
+  res.file(path.resolve(__dirname, 'assets', req.params['id']));
 });
 
 server.listen(3000, function () {
