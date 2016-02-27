@@ -8,9 +8,8 @@ const prefilename = path.resolve(__dirname, 'assets', uid);
 
 touch.sync(prefilename + '.bmp');
 
-
 fs.writeFileSync(prefilename + '.json', JSON.stringify({
-  "uid": "0ee132b6-eabb-437e-8c89-138f686dd386",
+  "uid": uuid,
   "cad_file": "C:/Users/Arefin/Documents/Hysteresis/json",
   "param_indices": [
     0,
