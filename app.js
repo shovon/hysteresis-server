@@ -5,8 +5,16 @@ const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
 const cors = require('cors');
+const commander = require('commander');
 
-const monitorPath = path.resolve(__dirname, 'assets');
+commander
+  .version('0.0.0')
+  .option('-a, --assetspath <path>', 'Set the asset path')
+  .parse(process.argv);
+
+const assetsPath = commander.assetsPath || 'assets';
+
+const monitorPath = path.resolve(process.cwd(), assetsPath);
 
 const files = {};
 
