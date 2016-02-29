@@ -12,7 +12,7 @@ commander
   .option('-a, --assetspath <path>', 'Set the asset path')
   .parse(process.argv);
 
-const assetsPath = commander.assetsPath || 'assets';
+const assetsPath = commander.assetspath || 'assets';
 
 const monitorPath = path.resolve(process.cwd(), assetsPath);
 
@@ -55,9 +55,10 @@ app.get('/files', (req, res, next) => {
 });
 
 app.get('/files/:id', function (req, res, next) {
-  res.sendFile(path.resolve(__dirname, 'assets', req.params['id']));
+  var filepath = path.resolve(monitorPath, req.params['id']);
+  res.sendFile(filepath);
 });
 
-server.listen(3000, function () {
+server.listen(3100, function () {
   console.log(this.address());
 });
