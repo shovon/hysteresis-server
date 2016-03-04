@@ -1,0 +1,101 @@
+body {
+	background-color: #eeeeee;
+}
+
+h1 {
+	color: blue;
+	text-align: center;
+}
+
+.alt {
+	margin:20;
+	background-color: #DDDDDD;
+	float: left;
+	height: auto;
+	width: auto;
+	border-radius: 5px;
+    box-shadow: 0px 3px 3px #999999;
+}
+
+img {
+	border-radius: 5px;
+}
+
+#workspace {
+    width: auto;
+    height: auto;
+}
+
+.ui-selected {
+	background: #F39814;
+	color : white;
+}
+
+.ui-selecting {
+	background: #FECA40;
+}
+
+
+ul {
+	margin-left: 50px;
+	width: auto;
+	font-size: small;
+	font-family: "Lucida Console", Monaco, monospace;
+}
+
+
+#main-toolbar {
+    position: fixed;
+    top:10;
+    left:100;
+	padding: 10px;
+	width: 90%;
+	height:auto; 
+	float: center;
+	background-color: #dddddd;
+	border-radius: 3px;
+    box-shadow: 0px 2px 5px #999999;
+    z-index: 9999;
+}
+
+.toolbar-button{
+    background-color: #0088CC;
+    border: none;
+    color: white;
+    padding: 10px 21px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    border-bottom: 5px solid #00AACC;
+    border-radius: 3px;
+    box-shadow: 0px 3px 3px #999999;
+}
+
+.alt-button{
+    background-color: #eeeeee;
+    border: none;
+    color: white;
+    padding: 3px 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 8px;
+    border-bottom: 2px solid #eeeeee;
+    border-radius: 1px;
+    box-shadow: 0px 3px 3px #999999;
+}
+
+/*button .toolbar{
+    background-color: #0088CC;
+    border: none;
+    color: white;
+    padding: 10px 21px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    border-bottom: 5px solid #00AACC;
+    border-radius: 3px;
+    box-shadow: 0px 3px 3px #999999;
+}*/

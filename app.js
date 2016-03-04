@@ -49,6 +49,7 @@ chokidar.watch(monitorPath).on('add', (filepath) => {
 });
 
 app.use(cors());
+app.use(express.static(path.resolve(__dirname, 'public')))
 
 app.get('/files', (req, res, next) => {
   res.json(Object.keys(files));
