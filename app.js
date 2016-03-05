@@ -6,13 +6,19 @@ const http = require('http');
 const socketio = require('socket.io');
 const cors = require('cors');
 const commander = require('commander');
+const mkdirp = require('mkdirp');
 
 commander
   .version('0.0.0')
   .option('-a, --assetspath <path>', 'Set the asset path')
+  .option('-r, --receivedpath <path>', 'Set the asset path')
   .parse(process.argv);
 
 const assetsPath = commander.assetspath || 'assets';
+const receivedPath = path.resolve(
+  process.cwd(),
+  commander.receivedpath || 'received'
+);
 
 const monitorPath = path.resolve(process.cwd(), assetsPath);
 
@@ -44,13 +50,60 @@ function fsEvent(name, filepath) {
   }
 }
 
+/**
+ * Saves the client's state.
+ */
+// TODO: unit test this.
+function saveClientState(filename, state) {
+  return new Promise((resolve, reject) => {
+    if (!/^([a-z]|\-$)+/i.test(filename)) {
+      throw new Error('Bad filename');
+    }
+
+    mkdirp(receivedPath, (err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve();
+    });
+  }).then(() => {
+    return new Promise((resolve, reject) => {
+      const stateJSON = typeof state === 'object' ?
+        JSON.stringify(state) : JSON.stringify({ invalidObject: state.toString() });
+      fs.writeFile(path.resolve(receivedPath, `${filename}.json`), stateJSON, 'utf8', (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+  });
+}
+
 io.on('connection', (socket) => {
   socket.on('restore model', (msg) => {
     console.log(msg);
   });
 
   socket.on('send state', (msg) => {
-    console.log(msg);
+    /**
+     * msg properties:
+     *
+     *   filename: string representing the name (no extension)
+     *   payload: JSON document
+     */
+
+    if (typeof msg.filename !== 'string' || typeof msg.payload !== 'object') {
+      console.log('A bad payload was sent!');
+      return;
+    }
+    if (!/^([a-z]|\-$)+/i.test(msg.filename)) {
+      console.log('Bad filename was sent!');
+      return;
+    }
+    saveClientState(msg.filename, msg.payload);
   });
 });
 

@@ -5,6 +5,13 @@ const host = 'http://localhost:3100';
 
 var socket = io('ws://localhost:3100');
 
+function sendJSON(filename, payload) {
+	socket.emit('send state', {
+		filename: filename,
+		payload: payload
+	});
+}
+
 UI.init = function() {
 	const hostFiles = host + '/files';
 	$.getJSON(hostFiles, function (data) {
@@ -22,9 +29,9 @@ UI.init = function() {
 	});
 
 	$('#send-to-program').click(function () {
-		socket.emit('send state', {
+		sendJSON('foo', {
 			"bleh": "bleh"
-		});
+		})
 	});
 }
 
