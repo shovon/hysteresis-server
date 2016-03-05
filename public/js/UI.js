@@ -97,34 +97,43 @@ UI.Alternative.prototype.initSelf = function () {
 	});
 
 	img = new Image();
-	img.src = this.image;
-	// img.width = img.height = 300;
-	this.img = img;
-	setTimeout(1000);
-	// var canvas = $('<canvas/>',{'id': 'blablab'}).width(300).height(300);
-	var canvas = document.createElement('canvas');
-	canvas.width = 400;
-	canvas.height = 400;
-	canvas.id = 'cnv-'+this.uid;
-	var ctx = canvas.getContext('2d');
-	ctx.drawImage(img,0,0,img.width,img.height,0,0,400,400);
-
-	// var img_obj = {src : img.src, id: 'img-'+this.uid};
-	// $('#'+container.id).prepend($('<img/>', img_obj));
-	$('#'+container.id).append(canvas);
-	var li = $('<ul class="params style="margin:0px; padding:0px;"></ul>');
-	li.attr({'id':'li-'+this.uid});
-	var list = $('#'+container.id).append(li).find('ul');
-	for (val in this.param_indices){
-		str = '<li>' + 'Parameter--'+val+":----Value----" + this.param_indices[val].toString() + '</li>';
-		list.append(str);
+	var withoutExt = this.image.split('.').slice(0, -1).join('.');
+	var extname = this.image.split('.').slice(-1)[0];
+	if (!/(jpg|png)/.test(extname)) {
+		extname = 'jpg';
 	}
-	$('.params').selectable({filter:'li'});
-	$('#'+container.id).draggable({cursor:'move', stack:".alt", containment: "window"});
-	// var closeBtn =
-	// $('#'+container.id).prepend(closeBtn);
-	$('<span class="ui-icon ui-icon-arrowthick-1-n"></span>').insertBefore(canvas.id);
-	// img.onLoad = this.loadImage(this.uid, img.src);
+	var newfilename = [withoutExt, extname].join('.');
+	img.onload = function () {
+		// img.width = img.height = 300;
+		this.img = img;
+		// var canvas = $('<canvas/>',{'id': 'blablab'}).width(300).height(300);
+		var canvas = document.createElement('canvas');
+		canvas.width = 400;
+		canvas.height = 400;
+		canvas.id = 'cnv-'+this.uid;
+		var ctx = canvas.getContext('2d');
+		ctx.drawImage(img,0,0,img.width,img.height,0,0,400,400);
+		// ctx.drawImage(img,0,0);
+
+		// var img_obj = {src : img.src, id: 'img-'+this.uid};
+		// $('#'+container.id).prepend($('<img/>', img_obj));
+		$('#'+container.id).append(canvas);
+		var li = $('<ul class="params style="margin:0px; padding:0px;"></ul>');
+		li.attr({'id':'li-'+this.uid});
+		var list = $('#'+container.id).append(li).find('ul');
+		for (val in this.param_indices){
+			str = '<li>' + 'Parameter--'+val+":----Value----" + this.param_indices[val].toString() + '</li>';
+			list.append(str);
+		}
+		$('.params').selectable({filter:'li'});
+		$('#'+container.id).draggable({cursor:'move', stack:".alt", containment: "window"});
+		// var closeBtn =
+		// $('#'+container.id).prepend(closeBtn);
+		$('<span class="ui-icon ui-icon-arrowthick-1-n"></span>').insertBefore(canvas.id);
+		// img.onLoad = this.loadImage(this.uid, img.src);
+	}.bind(this);
+	img.src = newfilename;
+
 }
 
 UI.Alternative.prototype.loadImage = function(uid, source){
