@@ -23,6 +23,7 @@ UI.init = function() {
 	});
 
 	socket.on('file created', function (msg) {
+		console.log("file created");
 		$.getJSON(hostFiles + '/' + msg + '.json', function (data) {
 			new UI.Alternative(data);
 		});
@@ -36,6 +37,7 @@ UI.init = function() {
 }
 
 UI.Alternative = function(alt){
+	console.log("trololol");
 	this.uid = alt.uid;
 	this.cad_file = alt.cad_file;
 	this.image = alt.image;
