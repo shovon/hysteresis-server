@@ -20,6 +20,12 @@ UI.init = function() {
 			new UI.Alternative(data);
 		});
 	});
+
+	$('#send-to-program').click(function () {
+		socket.emit('send state', {
+			"bleh": "bleh"
+		});
+	});
 }
 
 UI.Alternative = function(alt){

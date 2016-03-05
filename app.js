@@ -44,6 +44,16 @@ function fsEvent(name, filepath) {
   }
 }
 
+io.on('connection', (socket) => {
+  socket.on('restore model', (msg) => {
+    console.log(msg);
+  });
+
+  socket.on('send state', (msg) => {
+    console.log(msg);
+  });
+});
+
 chokidar.watch(monitorPath).on('add', (filepath) => {
   fsEvent('add', filepath);
 });
