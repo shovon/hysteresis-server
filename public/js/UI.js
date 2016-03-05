@@ -30,7 +30,7 @@ UI.init = function() {
 
 	$('#send-to-program').click(function () {
 		sendJSON('foo', {
-			"bleh": "bleh"
+			"hello":{"hello":[1,2,3,4]}
 		})
 	});
 }
