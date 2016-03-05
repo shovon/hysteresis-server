@@ -96,13 +96,7 @@ UI.Alternative.prototype.initSelf = function () {
 		}
 	});
 
-	img = new Image();
-	var withoutExt = this.image.split('.').slice(0, -1).join('.');
-	var extname = this.image.split('.').slice(-1)[0];
-	if (!/(jpg|png)/.test(extname)) {
-		extname = 'jpg';
-	}
-	var newfilename = [withoutExt, extname].join('.');
+	var img = new Image();
 	img.onload = function () {
 		// img.width = img.height = 300;
 		this.img = img;
@@ -132,7 +126,7 @@ UI.Alternative.prototype.initSelf = function () {
 		$('<span class="ui-icon ui-icon-arrowthick-1-n"></span>').insertBefore(canvas.id);
 		// img.onLoad = this.loadImage(this.uid, img.src);
 	}.bind(this);
-	img.src = newfilename;
+	img.src = this.image;
 
 }
 
