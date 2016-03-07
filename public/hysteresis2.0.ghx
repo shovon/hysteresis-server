@@ -3032,6 +3032,7 @@ import Grasshopper as gh
 from System import Guid
 from scriptcontext import doc
 import os
+import time
 
 path = "C:/Users/Arefin/Documents/hysteresis-server/public/json/"
 path_kernel = "C:/Users/Arefin/Documents/hysteresis-server/received/"
@@ -3143,7 +3144,20 @@ if os.path.exists(path_kernel+'kernel.json'):
         #erase the file contents to prevent infinite loop
         f = open(path_kernel+'kernel.json','w')
         f.write('')
-        f.close()</item>
+        f.close()
+        
+        _matrix = create_matrix(kernel)
+        _cproduct = generate_cproduct(_matrix)
+        
+        #now iterate over _cproduct and update model
+        #then wait for 1 sec and take snapshot, send to gall
+        
+        for i in range(len(_cproduct)):
+            _alt = get_alt(i, _cproduct, kernel)
+            update_model(_alt,d_node_name)
+            time.sleep(1)
+            send_to_gallery(_alt, True)
+            time.sleep(1)</item>
                     <item name="Description" type_name="gh_string" type_code="10">A python scriptable component</item>
                     <item name="EditorLocation" type_name="gh_drawing_point" type_code="30">
                       <X>245</X>
