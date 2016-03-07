@@ -92,56 +92,61 @@ UI.Alternative.prototype.initSelf = function () {
 	});
 
 	$('body').append(container);
-	// minButton.state = 'max';
-	// minButton.attr({'id':'min-'+this.uid});
-	// $('#'+container.id).append(minButton);
-	// $('#min-'+this.uid).click(function(){
-	// 	if(this.state === 'max'){
-	// 		console.log(this);
-	// 		var str = this.id;
-	// 		new_str = str.replace('min-','');
-	// 		$('#li-'+new_str).slideUp(100,function(){
-	// 			var str = this.id;
-	// 			var new_str = str.replace('li-','');
-	// 			console.log(new_str);
-	// 			$('#cnv-'+new_str).animate({'height':150, 'width':150});
-	// 		});
-	// 		this.state = 'min';
-	// 	}else{
-	// 	var str = this.id;
-	// 		new_str = str.replace('min-','');
-	// 		$('#cnv-'+new_str).animate({'height':400, 'width':400}, 10, 'swing', function () {
-	// 			// body...
-	// 			var str = this.id;
-	// 			var new_str = str.replace('cnv-','');
-	// 			$('#li-'+new_str).show(100);
-	// 		});
-	// 		this.state = 'max';
-	// 	}
-	// });
 
-	img = new Image();
+	var canvas = document.createElement('canvas');
+	var $canvas = $(canvas);
+
+	$container.addClass('ui-widget-content');
+	var $minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button><br>');
+	$minButton.state = 'max';
+	$container.append($minButton);
+	$minButton.click(function() {
+		// this : DOMElement
+
+		var new_str;
+
+		if (this.state === 'max') {
+			var str = this.id;
+			new_str = str.replace('min-','');
+			$('#li-' + new_str).slideUp(100,function(){
+				var str = this.id;
+				var new_str = str.replace('li-','');
+				$canvas.animate({'height':150, 'width':150});
+			});
+			this.state = 'min';
+		} else {
+			var str = this.id;
+			new_str = str.replace('min-','');
+			$canvas.animate({'height':400, 'width':400}, 10, 'swing', function () {
+				// body...
+				var str = this.id;
+				var new_str = str.replace('cnv-','');
+				$('#li-' + new_str).show(100);
+			});
+			this.state = 'max';
+		}
+	});
+	var img = new Image();
 	img.onload = function () {
 		this.img = img;
 		var canvas = document.createElement('canvas');
 		canvas.width = 400;
 		canvas.height = 400;
 		var ctx = canvas.getContext('2d');
-		ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 400, 400);
-
+		ctx.drawImage(img,0,0,img.width,img.height,0,0,400,400);
 		$container.append(canvas);
 		var li = $('<ul class="params style="margin:0px; padding:0px;"></ul>');
-		li.attr({ id: 'li-' + this.uid });
+		li.attr({'id':'li-'+this.uid});
 		var list = $container.append(li).find('ul');
-		this.param.forEach(param => {
-			const str = '<li>' + 'Parameter--'+key+":----Value----" + this.param[key].toString() + '</li>';
+		Object.keys(this.params).forEach(key => {
+			var str = '<li>' + 'Parameter--'+key+":----Value----" + this.params[key].toString() + '</li>';
 			list.append(str);
-		});
-		$$container.find('.params').selectable({filter:'li'});
-		$container.draggable({ cursor:'move', stack:".alt", containment: "window" });
+		})
+		$container.find('.params').selectable({filter:'li'});
+		$container.draggable({cursor:'move', stack:".alt", containment: "window"});
 		$('<span class="ui-icon ui-icon-arrowthick-1-n"></span>').insertBefore(canvas.id);
 	}.bind(this);
-	img.src = this.image;
+	img.src = '/files/' + this.image;
 }
 
 UI.Alternative.prototype.loadImage = function(uid, source) {}
