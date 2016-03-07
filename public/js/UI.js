@@ -47,35 +47,47 @@ UI.Alternative = function(alt){
 }
 
 UI.Alternative.prototype.initSelf = function () {
+
+	// var thumbnail = document.createElement('div');
+	// thumbnail.id = 'thm-'+this.uid;
+	// thumbnail.className = 'thumbnail';
+	// $('#workspace').append(thumbnail);
+	// $('#'+thumbnail.id).addClass('ui-widget-content');
+	// var maxButton = $('<button type="button" class="alt-button"><span class="ui-icon-newwin"></span></button>');
+	// maxButton.attr({'id':'max-'+this.uid});
+	// $('#'+thumbnail.id).append(maxButton);
+	// $('#max-'+this.uid).click(function(){
+	// 	var str = this.id;
+	// 	new_str = str.replace('max-','');
+	// 	alert('clicked');
+	// 	// $('#alt-'+new_str).hide(400);
+	// });
+
+	// var container = $('<div></div>').html('<ul><li>ONE</li><li>TWO</li></ul>');
 	var container = document.createElement('div');
+	container.id = 'alt-'+this.uid;
 	container.className = 'alt';
-
-	var $container = $(container);
-
-	// TODO: avoid this.
 	$('body').append(container);
-
-	var canvas = document.createElement('canvas');
-
-	$container.addClass('ui-widget-content');
-	var $minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button><br>');
-	$minButton.state = 'max';
-	$minButton.attr({'id':'min-'+this.uid});
-	$container.append($minButton);
-	$minButton.click(function() {
-		// this : DOMElement
-
+	$('#'+container.id).addClass('ui-widget-content');
+	var minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button><br>');
+	minButton.state = 'max';
+	minButton.attr({'id':'min-'+this.uid});
+	// console.log(minButton);
+	$('#'+container.id).append(minButton);
+	$('#min-'+this.uid).click(function(){
 		if(this.state === 'max'){
+			console.log(this);
 			var str = this.id;
 			new_str = str.replace('min-','');
 			$('#li-'+new_str).slideUp(100,function(){
 				var str = this.id;
 				var new_str = str.replace('li-','');
+				console.log(new_str);
 				$('#cnv-'+new_str).animate({'height':150, 'width':150});
 			});
 			this.state = 'min';
-		} else {
-			var str = this.id;
+		}else{
+		var str = this.id;
 			new_str = str.replace('min-','');
 			$('#cnv-'+new_str).animate({'height':400, 'width':400}, 10, 'swing', function () {
 				// body...
@@ -86,31 +98,45 @@ UI.Alternative.prototype.initSelf = function () {
 			this.state = 'max';
 		}
 	});
-	var img = new Image();
-	img.onload = function () {
-		this.img = img;
 
+	img = new Image();
+	var withoutExt = this.image.split('.').slice(0, -1).join('.');
+	var extname = this.image.split('.').slice(-1)[0];
+	if (!/(jpg|png)/.test(extname)) {
+		extname = 'jpg';
+	}
+	var newfilename = [withoutExt, extname].join('.');
+	img.onload = function () {
+		// img.width = img.height = 300;
+		this.img = img;
+		// var canvas = $('<canvas/>',{'id': 'blablab'}).width(300).height(300);
+		var canvas = document.createElement('canvas');
 		canvas.width = 400;
 		canvas.height = 400;
-
 		canvas.id = 'cnv-'+this.uid;
 		var ctx = canvas.getContext('2d');
 		ctx.drawImage(img,0,0,img.width,img.height,0,0,400,400);
-		$(container).append(canvas);
+		// ctx.drawImage(img,0,0);
+
+		// var img_obj = {src : img.src, id: 'img-'+this.uid};
+		// $('#'+container.id).prepend($('<img/>', img_obj));
+		$('#'+container.id).append(canvas);
 		var li = $('<ul class="params style="margin:0px; padding:0px;"></ul>');
 		li.attr({'id':'li-'+this.uid});
-		var list = $(container).append(li).find('ul');
-		for (key in this.params){
+		var list = $('#'+container.id).append(li).find('ul');
+		for (val in this.param_indices){
 			str = '<li>' + 'Parameter--'+key+":----Value----" + this.param[key].toString() + '</li>';
 			list.append(str);
 		}
-		console.log(this.params);
-		console.log(list);
-		$(container).find('.params').selectable({filter:'li'});
-		$(container).draggable({cursor:'move', stack:".alt", containment: "window"});
+		$('.params').selectable({filter:'li'});
+		$('#'+container.id).draggable({cursor:'move', stack:".alt", containment: "window"});
+		// var closeBtn =
+		// $('#'+container.id).prepend(closeBtn);
 		$('<span class="ui-icon ui-icon-arrowthick-1-n"></span>').insertBefore(canvas.id);
+		// img.onLoad = this.loadImage(this.uid, img.src);
 	}.bind(this);
-	img.src = this.image;
+	img.src = newfilename;
+
 }
 
 UI.Alternative.prototype.loadImage = function(uid, source){
