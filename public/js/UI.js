@@ -41,7 +41,7 @@ UI.Alternative = function(alt){
 	this.uid = alt.uid;
 	this.cad_file = alt.cad_file;
 	this.image = alt.image;
-	this.param_indices = alt.param_indices;
+	this.params = alt.params;
 
 	this.initSelf();
 }
@@ -100,10 +100,12 @@ UI.Alternative.prototype.initSelf = function () {
 		var li = $('<ul class="params style="margin:0px; padding:0px;"></ul>');
 		li.attr({'id':'li-'+this.uid});
 		var list = $(container).append(li).find('ul');
-		for (val in this.param_indices){
-			str = '<li>' + 'Parameter--'+val+":----Value----" + this.param_indices[val].toString() + '</li>';
+		for (key in this.params){
+			str = '<li>' + 'Parameter--'+key+":----Value----" + this.param[key].toString() + '</li>';
 			list.append(str);
 		}
+		console.log(this.params);
+		console.log(list);
 		$(container).find('.params').selectable({filter:'li'});
 		$(container).draggable({cursor:'move', stack:".alt", containment: "window"});
 		$('<span class="ui-icon ui-icon-arrowthick-1-n"></span>').insertBefore(canvas.id);
