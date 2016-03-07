@@ -36,12 +36,16 @@ UI.init = function() {
 	});
 }
 
+const MIN_STATE = 'min';
+const MAX_STATE = 'max';
+
 UI.Alternative = function(alt){
-	console.log("trololol");
 	this.uid = alt.uid;
 	this.cad_file = alt.cad_file;
 	this.image = alt.image;
 	this.params = alt.params;
+
+	this.state = MAX_STATE;
 
 	this.initSelf();
 }
@@ -65,80 +69,79 @@ UI.Alternative.prototype.initSelf = function () {
 
 	// var container = $('<div></div>').html('<ul><li>ONE</li><li>TWO</li></ul>');
 	var container = document.createElement('div');
-	container.id = 'alt-'+this.uid;
-	container.className = 'alt';
-	$('body').append(container);
-	$('#'+container.id).addClass('ui-widget-content');
-	var minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button><br>');
-	minButton.state = 'max';
-	minButton.attr({'id':'min-'+this.uid});
-	// console.log(minButton);
-	$('#'+container.id).append(minButton);
-	$('#min-'+this.uid).click(function(){
-		if(this.state === 'max'){
-			console.log(this);
-			var str = this.id;
-			new_str = str.replace('min-','');
-			$('#li-'+new_str).slideUp(100,function(){
-				var str = this.id;
-				var new_str = str.replace('li-','');
-				console.log(new_str);
-				$('#cnv-'+new_str).animate({'height':150, 'width':150});
-			});
-			this.state = 'min';
-		}else{
-		var str = this.id;
-			new_str = str.replace('min-','');
-			$('#cnv-'+new_str).animate({'height':400, 'width':400}, 10, 'swing', function () {
-				// body...
-				var str = this.id;
-				var new_str = str.replace('cnv-','');
-				$('#li-'+new_str).show(100);
-			});
-			this.state = 'max';
-		}
+	var $container = $(container);
+	$container.attr('id', `alt-${this.uid}`);
+	$container.addClass('alt ui-widget-content');
+
+	var $minButton = $(document.createElement('button'));
+	$minButton.attr({
+		id: `min-${this.uid}`,
+		type: 'button',
+		class: 'alt-button'
+	});
+	$minButton.html(`
+		<span class="ui-icon ui-icon-arrow-2-se-nw"></span>
+	`);
+	$minButton.appendTo($container);
+
+	const self = this;
+	$minButton.click(function () {
+		// if (self.state === MAX_STATE) {
+		//
+		// }
 	});
 
+	$('body').append(container);
+	// minButton.state = 'max';
+	// minButton.attr({'id':'min-'+this.uid});
+	// $('#'+container.id).append(minButton);
+	// $('#min-'+this.uid).click(function(){
+	// 	if(this.state === 'max'){
+	// 		console.log(this);
+	// 		var str = this.id;
+	// 		new_str = str.replace('min-','');
+	// 		$('#li-'+new_str).slideUp(100,function(){
+	// 			var str = this.id;
+	// 			var new_str = str.replace('li-','');
+	// 			console.log(new_str);
+	// 			$('#cnv-'+new_str).animate({'height':150, 'width':150});
+	// 		});
+	// 		this.state = 'min';
+	// 	}else{
+	// 	var str = this.id;
+	// 		new_str = str.replace('min-','');
+	// 		$('#cnv-'+new_str).animate({'height':400, 'width':400}, 10, 'swing', function () {
+	// 			// body...
+	// 			var str = this.id;
+	// 			var new_str = str.replace('cnv-','');
+	// 			$('#li-'+new_str).show(100);
+	// 		});
+	// 		this.state = 'max';
+	// 	}
+	// });
+
 	img = new Image();
-	var withoutExt = this.image.split('.').slice(0, -1).join('.');
-	var extname = this.image.split('.').slice(-1)[0];
-	if (!/(jpg|png)/.test(extname)) {
-		extname = 'jpg';
-	}
-	var newfilename = [withoutExt, extname].join('.');
 	img.onload = function () {
-		// img.width = img.height = 300;
 		this.img = img;
-		// var canvas = $('<canvas/>',{'id': 'blablab'}).width(300).height(300);
 		var canvas = document.createElement('canvas');
 		canvas.width = 400;
 		canvas.height = 400;
-		canvas.id = 'cnv-'+this.uid;
 		var ctx = canvas.getContext('2d');
-		ctx.drawImage(img,0,0,img.width,img.height,0,0,400,400);
-		// ctx.drawImage(img,0,0);
+		ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, 400, 400);
 
-		// var img_obj = {src : img.src, id: 'img-'+this.uid};
-		// $('#'+container.id).prepend($('<img/>', img_obj));
-		$('#'+container.id).append(canvas);
+		$container.append(canvas);
 		var li = $('<ul class="params style="margin:0px; padding:0px;"></ul>');
-		li.attr({'id':'li-'+this.uid});
-		var list = $('#'+container.id).append(li).find('ul');
-		for (val in this.param_indices){
-			str = '<li>' + 'Parameter--'+key+":----Value----" + this.param[key].toString() + '</li>';
+		li.attr({ id: 'li-' + this.uid });
+		var list = $container.append(li).find('ul');
+		this.param.forEach(param => {
+			const str = '<li>' + 'Parameter--'+key+":----Value----" + this.param[key].toString() + '</li>';
 			list.append(str);
-		}
-		$('.params').selectable({filter:'li'});
-		$('#'+container.id).draggable({cursor:'move', stack:".alt", containment: "window"});
-		// var closeBtn =
-		// $('#'+container.id).prepend(closeBtn);
+		});
+		$$container.find('.params').selectable({filter:'li'});
+		$container.draggable({ cursor:'move', stack:".alt", containment: "window" });
 		$('<span class="ui-icon ui-icon-arrowthick-1-n"></span>').insertBefore(canvas.id);
-		// img.onLoad = this.loadImage(this.uid, img.src);
 	}.bind(this);
-	img.src = newfilename;
-
+	img.src = this.image;
 }
 
-UI.Alternative.prototype.loadImage = function(uid, source){
-
-}
+UI.Alternative.prototype.loadImage = function(uid, source) {}
