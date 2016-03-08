@@ -3,7 +3,8 @@ UI.AltList = {};
 
 const host = 'http://localhost:3100';
 
-var socket = io('ws://localhost:3100');
+// var socket = io('ws://localhost:3100');
+var socket = io();
 
 function sendJSON(filename, payload) {
 	socket.emit('send state', {
@@ -13,7 +14,7 @@ function sendJSON(filename, payload) {
 }
 
 UI.init = function() {
-	const hostFiles = host + '/files';
+	const hostFiles = '/files';
 	$.getJSON(hostFiles, function (data) {
 		data.forEach(function (datum) {
 			$.getJSON(hostFiles + '/' + datum + '.json', function (obj) {
@@ -93,7 +94,7 @@ UI.Alternative.prototype.initSelf = function () {
 		li.attr({'id':'li-'+this.uid});
 		var list = $container.append(li).find('ul');
 		Object.keys(this.params).forEach(key => {
-			var str = '<li>' + 'Parameter--'+key+":----Value----" + this.params[key].toString() + '</li>';
+			var str = '<li>' + '\t'+key+" \t:" + this.params[key].toString() + '</li>';
 			list.append(str);
 		})
 		$container.find('.params').selectable({filter:'li'});
