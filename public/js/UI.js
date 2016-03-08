@@ -94,7 +94,7 @@ UI.Alternative.prototype.initSelf = function () {
 		li.attr({'id':'li-'+this.uid});
 		var list = $container.append(li).find('ul');
 		Object.keys(this.params).forEach(key => {
-			var str = '<li>' + 'Parameter--'+key+":----Value----" + this.params[key].toString() + '</li>';
+			var str = '<li>' + '\t'+key+" \t:" + this.params[key].toString() + '</li>';
 			list.append(str);
 		})
 		$container.find('.params').selectable({filter:'li'});
