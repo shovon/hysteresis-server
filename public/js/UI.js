@@ -13,12 +13,21 @@ function sendJSON(filename, payload) {
 	});
 }
 
+function getData(id){
+	var json_data = {"Foo":{"Bar":"Baz"}};
+	json_data['params'] = UI.AltList[id]['params'];
+	return json_data;
+}
+
+
+
 UI.init = function() {
 	const hostFiles = '/files';
 	$.getJSON(hostFiles, function (data) {
 		data.forEach(function (datum) {
 			$.getJSON(hostFiles + '/' + datum + '.json', function (obj) {
-				new UI.Alternative(obj);
+				var alt = new UI.Alternative(obj);
+				UI.AltList[alt.uid]=alt;
 			});
 		});
 	});
@@ -64,6 +73,12 @@ UI.Alternative.prototype.initSelf = function () {
 	var $canvas = $(canvas);
 
 	$container.addClass('ui-widget-content');
+	var a = this.uid;
+	$container.dblclick(function(){
+		var data = getData(a);
+		sendJSON('restore',data);
+
+	});
 	var $minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button><br>');
 	$minButton.state = 'max'; // TODO: let this be its own variable.
 	$container.append($minButton);
@@ -94,10 +109,15 @@ UI.Alternative.prototype.initSelf = function () {
 		li.attr({'id':'li-'+this.uid});
 		var list = $container.append(li).find('ul');
 		Object.keys(this.params).forEach(key => {
-			var str = '<li>' + '\t'+key+" \t:" + this.params[key].toString() + '</li>';
+			var str = '<li id='+key+'>' + '\t'+key+" \t:" + this.params[key].toString() + '</li>';
 			list.append(str);
 		})
-		$container.find('.params').selectable({filter:'li'});
+		$container.find('.params').selectable({
+			filter:'li',
+			selected : function(e,ui){
+				console.log(e);
+			}
+		});
 		$container.draggable({cursor:'move', stack:".alt", containment: "window"});
 	}.bind(this);
 	img.src = '/files/' + this.image;
