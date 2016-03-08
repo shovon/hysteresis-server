@@ -3,6 +3,7 @@ UI.AltList = {};
 
 const host = 'http://localhost:3100';
 
+// var socket = io('ws://localhost:3100');
 var socket = io('ws://localhost:3100');
 
 function sendJSON(filename, payload) {

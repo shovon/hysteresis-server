@@ -1,0 +1,15 @@
+{
+  "image": "C:/Users/Arefin/Documents/hysteresis-server/public/json/f224479a-0acc-42cb-b492-9ba2458d5a60.bmp", 
+  "uid": "f224479a-0acc-42cb-b492-9ba2458d5a60", 
+  "params": {
+    "OutputShape-seg": 3.0, 
+    "PointY": 1.0, 
+    "AttF(x)": 0.0, 
+    "OutputShape": 1.0, 
+    "PointX": 1.0, 
+    "Scale": 15.0, 
+    "GridType": 1.0, 
+    "Angle": 8.0
+  }, 
+  "cad_file": "xyz.obj"
+}
