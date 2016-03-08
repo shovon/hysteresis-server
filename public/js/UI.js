@@ -4,7 +4,7 @@ UI.AltList = {};
 const host = 'http://localhost:3100';
 
 // var socket = io('ws://localhost:3100');
-var socket = io('ws://localhost:3100');
+var socket = io();
 
 function sendJSON(filename, payload) {
 	socket.emit('send state', {
@@ -14,7 +14,7 @@ function sendJSON(filename, payload) {
 }
 
 UI.init = function() {
-	const hostFiles = host + '/files';
+	const hostFiles = '/files';
 	$.getJSON(hostFiles, function (data) {
 		data.forEach(function (datum) {
 			$.getJSON(hostFiles + '/' + datum + '.json', function (obj) {
