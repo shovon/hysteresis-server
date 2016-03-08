@@ -1,10 +1,10 @@
 {
-  "image": "149be58d-41bf-43ab-9586-baaabbf395d1.bmp", 
-  "uid": "149be58d-41bf-43ab-9586-baaabbf395d1", 
+  "image": "93e288a8-256b-4727-9202-560189cbdd5d.bmp", 
+  "uid": "93e288a8-256b-4727-9202-560189cbdd5d", 
   "params": {
-    "OutputShape-seg": 3.0, 
+    "OutputShape-seg": 8.0, 
     "PointY": 1.0, 
-    "AttF(x)": 0.0, 
+    "AttF(x)": 2.0, 
     "OutputShape": 1.0, 
     "PointX": 1.0, 
     "Scale": 15.0, 

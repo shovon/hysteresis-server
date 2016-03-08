@@ -1,0 +1,15 @@
+{
+  "image": "c0953d0b-1be6-4d58-a5c1-8828fe6567f0.bmp", 
+  "uid": "c0953d0b-1be6-4d58-a5c1-8828fe6567f0", 
+  "params": {
+    "OutputShape-seg": 3.0, 
+    "PointY": 1.0, 
+    "AttF(x)": 2.0, 
+    "OutputShape": 1.0, 
+    "PointX": 1.0, 
+    "Scale": 15.0, 
+    "GridType": 2.0, 
+    "Angle": 8.0
+  }, 
+  "cad_file": "xyz.obj"
+}

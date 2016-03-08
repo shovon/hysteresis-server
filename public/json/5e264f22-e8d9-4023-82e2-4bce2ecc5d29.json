@@ -1,8 +1,8 @@
 {
-  "image": "2a84a459-a293-46bb-a3d2-3488591a0fe0.bmp", 
-  "uid": "2a84a459-a293-46bb-a3d2-3488591a0fe0", 
+  "image": "5e264f22-e8d9-4023-82e2-4bce2ecc5d29.bmp", 
+  "uid": "5e264f22-e8d9-4023-82e2-4bce2ecc5d29", 
   "params": {
-    "OutputShape-seg": 3.0, 
+    "OutputShape-seg": 8.0, 
     "PointY": 1.0, 
     "AttF(x)": 0.0, 
     "OutputShape": 1.0, 
