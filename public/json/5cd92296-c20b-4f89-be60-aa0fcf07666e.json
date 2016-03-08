@@ -1,6 +1,6 @@
 {
-  "image": "C:/Users/Arefin/Documents/hysteresis-server/public/json/3f80a961-d622-4d4b-80ed-b2ce83406bd5.bmp", 
-  "uid": "3f80a961-d622-4d4b-80ed-b2ce83406bd5", 
+  "image": "5cd92296-c20b-4f89-be60-aa0fcf07666e.bmp", 
+  "uid": "5cd92296-c20b-4f89-be60-aa0fcf07666e", 
   "params": {
     "OutputShape-seg": 8.0, 
     "PointY": 0.0, 
@@ -9,7 +9,7 @@
     "Scale": 8.0, 
     "PointX": 0.5, 
     "GridType": 0.0, 
-    "Angle": 8.0
+    "Angle": 32.0
   }, 
   "cad_file": "xyz.obj"
 }
