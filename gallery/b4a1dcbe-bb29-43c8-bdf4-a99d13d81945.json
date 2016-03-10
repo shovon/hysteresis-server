@@ -1,6 +1,6 @@
 {
-  "image": "ccaf6986-a68a-485b-af86-7e7baf5c8a28.bmp", 
-  "uid": "ccaf6986-a68a-485b-af86-7e7baf5c8a28", 
+  "image": "b4a1dcbe-bb29-43c8-bdf4-a99d13d81945.bmp", 
+  "uid": "b4a1dcbe-bb29-43c8-bdf4-a99d13d81945", 
   "params": {
     "OutputShape-seg": 8.0, 
     "PointY": 0.0, 
@@ -9,7 +9,7 @@
     "Scale": 8.0, 
     "PointX": 0.5, 
     "GridType": 0.0, 
-    "Angle": 8.0
+    "Angle": 32.0
   }, 
   "cad_file": "xyz.obj"
 }
