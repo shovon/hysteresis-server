@@ -1,3 +1,7 @@
-{'OutputShape-seg': 8.0, 'OutputShape': 1.0, 'PointX': 0.29999999999999999, 'GridType': 1.0, 'PointY': 0.40000000000000002, 'Angle': 25.0, 'AttF(x)': 0.0, 'Scale': 6.0}
-{'OutputShape-seg': 3.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 2.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 15.0}
-{'OutputShape-seg': 3.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 2.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 15.0}
+{'OutputShape-seg': 3.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 1.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 6.0}
+{'OutputShape-seg': 4.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 1.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 6.0}
+{'OutputShape-seg': 5.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 1.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 6.0}
+{'OutputShape-seg': 6.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 1.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 6.0}
+{'OutputShape-seg': 7.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 1.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 6.0}
+{'OutputShape-seg': 8.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 1.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 6.0}
+{'OutputShape-seg': 8.0, 'OutputShape': 1.0, 'PointX': 0.90000000000000002, 'GridType': 0.0, 'PointY': 1.0, 'Angle': 8.0, 'AttF(x)': 0.0, 'Scale': 6.0}
