@@ -2,6 +2,6 @@ assets
 node_modules
 .DS_Store
 public/json
-public/data.dat
 received
-gallery
+gallery/*.bmp
+gallery/*.json

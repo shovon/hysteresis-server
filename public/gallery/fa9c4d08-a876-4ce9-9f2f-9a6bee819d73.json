@@ -1,0 +1,16 @@
+{
+  "image": "fa9c4d08-a876-4ce9-9f2f-9a6bee819d73.bmp", 
+  "uid": "fa9c4d08-a876-4ce9-9f2f-9a6bee819d73", 
+  "filepath": "C:\\Users\\amohiudd\\Documents\\hysteresis-server\\public\\hysteresis2.0.ghx", 
+  "params": {
+    "OutputShape-seg": 3.0, 
+    "OutputShape": 1.0, 
+    "PointX": 0.90000000000000002, 
+    "GridType": 1.0, 
+    "PointY": 1.0, 
+    "Angle": 8.0, 
+    "AttF(x)": 0.0, 
+    "Scale": 6.0
+  }, 
+  "cad_file": "xyz.obj"
+}

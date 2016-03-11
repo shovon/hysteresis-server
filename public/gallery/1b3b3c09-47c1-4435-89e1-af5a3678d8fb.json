@@ -1,0 +1,15 @@
+{
+  "cad_file": "xyz.obj", 
+  "uid": "1b3b3c09-47c1-4435-89e1-af5a3678d8fb", 
+  "params": {
+    "OutputShape-seg": 8.0, 
+    "OutputShape": 1.0, 
+    "PointX": 0.90000000000000002, 
+    "GridType": 4.0, 
+    "PointY": 1.0, 
+    "Angle": 8.0, 
+    "AttF(x)": 0.0, 
+    "Scale": 6.0
+  }, 
+  "image": "1b3b3c09-47c1-4435-89e1-af5a3678d8fb.bmp"
+}
