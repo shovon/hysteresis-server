@@ -1,5 +1,6 @@
 var UI = UI || {}
 UI.AltList = {};
+UI.Selection = {};
 
 const host = 'http://localhost:3100';
 
@@ -40,9 +41,7 @@ UI.init = function() {
 	});
 
 	$('#send-to-program').click(function () {
-		sendJSON('foo', {
-			"hello":{"hello":[1,2,3,4]}
-		})
+		sendJSON('kernel', UI.Selection);
 	});
 }
 
@@ -106,16 +105,27 @@ UI.Alternative.prototype.initSelf = function () {
 		ctx.drawImage(img,0,0,img.width,img.height,0,0,400,400);
 		$container.append($canvas);
 		var li = $('<ul class="params style="margin:0px; padding:0px;"></ul>');
-		li.attr({'id':'li-'+this.uid});
+		li.attr({'id':this.uid});
 		var list = $container.append(li).find('ul');
 		Object.keys(this.params).forEach(key => {
-			var str = '<li id='+key+'>' + '\t'+key+" \t:" + this.params[key].toString() + '</li>';
+			var str = '<li name='+key+'>' + '\t'+key+" \t:" + this.params[key].toString() + '</li>';
 			list.append(str);
+			UI.Selection[key]=[];
 		})
-		$container.find('.params').selectable({
+		$container.find('ul').selectable({
 			filter:'li',
-			selected : function(e,ui){
-				console.log(e);
+			stop : function(e,ui){
+				$('.ui-selected', this).each(function(){
+					var altId = $($(this).parent()).attr('id');
+					var paramName = $(this).attr('name');
+					UI.Selection[paramName].push(UI.AltList[altId]['params'][paramName]);
+				});
+			},
+			unselected : function(e,ui){
+				var altId = ($(ui.unselected).parent()).attr('id');
+				var paramName = $(ui.unselected).attr('name');
+				var index = UI.Selection[paramName].indexOf(UI.AltList[altId]['params'][paramName]);
+				UI.Selection[paramName].splice(index, 1);
 			}
 		});
 		$container.draggable({cursor:'move', stack:".alt", containment: "window"});
