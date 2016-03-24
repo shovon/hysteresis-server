@@ -36,7 +36,8 @@ UI.init = function() {
 	socket.on('file created', function (msg) {
 		console.log("file created");
 		$.getJSON(hostFiles + '/' + msg + '.json', function (data) {
-			new UI.Alternative(data);
+				var alt = new UI.Alternative(data);
+				UI.AltList[alt.uid] = alt;
 		});
 	});
 
