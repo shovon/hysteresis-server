@@ -123,7 +123,7 @@ chokidar.watch(monitorPath).on('add', (filepath) => {
 
 chokidar.watch(monitorPath).on('change', (filepath) => {
   fsEvent('change', filepath);
-})
+});
 
 app.use(cors());
 app.use(express.static(path.resolve(__dirname, 'public')))
