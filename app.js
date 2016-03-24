@@ -7,6 +7,7 @@ const socketio = require('socket.io');
 const cors = require('cors');
 const commander = require('commander');
 const mkdirp = require('mkdirp');
+const debug = require('debug')('app');
 
 commander
   .version('0.0.0')
@@ -32,20 +33,29 @@ const io = socketio(server);
 
 function fsEvent(name, filepath) {
   const extname = path.extname(filepath);
+  debug(`Got an fs event ${extname}`);
   const filename = path.basename(filepath);
   const noext = filename.slice(0, filename.length - extname.length);
-  files[noext] = { hasImage: false, hasMeta: false }
+  files[noext] = files[noext] || { hasImage: false, hasMeta: false }
   files[noext].hasImage = files[noext].hasImage || extname === '.bmp';
   files[noext].hasMeta = files[noext].hasMeta || extname === '.json';
   switch (name) {
   case 'add':
     if (files[noext].hasImage && files[noext].hasMeta) {
+      debug('We have both images!');
       io.emit('file created', noext);
     }
+    debug(`file ${noext.slice(0, 8)}. Has image ${files[noext].hasImage}, ${files[noext].hasMeta}`)
+    break;
+  case 'change':
+    // Do some change-related tasks here.
     break;
   case 'unlink':
+    debug('File deleted');
     io.emit('file deleted', noexit);
     break;
+  default:
+    debug('Neither an add or delete event')
   }
 }
 
@@ -102,6 +112,7 @@ io.on('connection', (socket) => {
       console.log('Bad filename was sent!');
       return;
     }
+    debug('Got client state');
     saveClientState(msg.filename, msg.payload);
   });
 });
@@ -109,6 +120,10 @@ io.on('connection', (socket) => {
 chokidar.watch(monitorPath).on('add', (filepath) => {
   fsEvent('add', filepath);
 });
+
+chokidar.watch(monitorPath).on('change', (filepath) => {
+  fsEvent('change', filepath);
+})
 
 app.use(cors());
 app.use(express.static(path.resolve(__dirname, 'public')))
