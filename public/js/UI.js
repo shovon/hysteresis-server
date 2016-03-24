@@ -101,7 +101,7 @@ UI.Alternative.prototype.initSelf = function () {
 	var $cadButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-lightbulb"></span></button><br>');
 	$container.append($cadButton);
 	$cadButton.click(function () {
-		
+		console.log($canvas);
 	});
 
 	var img = new Image();
