@@ -3,5 +3,5 @@ node_modules
 .DS_Store
 public/json
 received
-#gallery/*.bmp
-#gallery/*.json
+gallery/*.bmp
+gallery/*.json
