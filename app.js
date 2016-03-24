@@ -22,7 +22,8 @@ const receivedPath = path.resolve(
 
 const monitorPath = path.resolve(process.cwd(), assetsPath);
 
-const files = {};
+const files = {
+};
 
 const app = express();
 const server = http.Server(app);
@@ -31,18 +32,16 @@ const io = socketio(server);
 
 function fsEvent(name, filepath) {
   const extname = path.extname(filepath);
-  if (
-    path.dirname(filepath) !== monitorPath ||
-    extname !== '.json'
-  ) {
-    return;
-  }
   const filename = path.basename(filepath);
   const noext = filename.slice(0, filename.length - extname.length);
-  files[noext] = true;
+  files[noext] = { hasImage: false, hasMeta: false }
+  files[noext].hasImage = files[noext].hasImage || extname === '.bmp';
+  files[noext].hasMeta = files[noext].hasMeta || extname === '.json';
   switch (name) {
   case 'add':
-    io.emit('file created', noext);
+    if (files[noext].hasImage && files[noext].hasMeta) {
+      io.emit('file created', noext);
+    }
     break;
   case 'unlink':
     io.emit('file deleted', noexit);
