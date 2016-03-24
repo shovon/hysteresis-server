@@ -20,8 +20,6 @@ function getData(id){
 	return json_data;
 }
 
-
-
 UI.init = function() {
 	const hostFiles = '/files';
 	$.getJSON(hostFiles, function (data) {
@@ -79,7 +77,8 @@ UI.Alternative.prototype.initSelf = function () {
 		sendJSON('restore',data);
 
 	});
-	var $minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button><br>');
+
+	var $minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button>');
 	$minButton.state = 'max'; // TODO: let this be its own variable.
 	$container.append($minButton);
 	$minButton.click(function() {
@@ -98,6 +97,13 @@ UI.Alternative.prototype.initSelf = function () {
 			$minButton.state = 'max';
 		}
 	});
+
+	var $cadButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-lightbulb"></span></button><br>');
+	$container.append($cadButton);
+	$cadButton.click(function () {
+		
+	});
+
 	var img = new Image();
 	img.onload = function () {
 		this.img = img;
