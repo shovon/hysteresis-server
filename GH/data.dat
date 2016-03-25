@@ -1,2 +1,1 @@
-{'param08': 5.0, 'param09': 0.0, 'param02': 6.0, 'param03': 7.0, 'param10': 20.0, 'param01': 20.0, 'param06': 0.0, 'param07': 7.0, 'param04': 5.0, 'param05': 6.0, 'param11': 3.0}
-{'param08': 5.0, 'param09': 0.0, 'param02': 6.0, 'param03': 7.0, 'param10': 20.0, 'param01': 20.0, 'param06': 0.0, 'param07': 7.0, 'param04': 5.0, 'param05': 6.0, 'param11': 44.0}
+{'param08': 5.0, 'param09': 0.0, 'param02': 6.0, 'param03': 7.0, 'param10': 20.0, 'param01': 20.0, 'param06': 0.0, 'param07': 7.0, 'param04': 5.0, 'param05': 6.0, 'param11': 3.0, 'Output': {'Output-A': 11, 'Output-B': 3}}
