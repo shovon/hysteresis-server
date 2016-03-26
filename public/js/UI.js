@@ -20,6 +20,26 @@ function getData(id){
 	return json_data;
 }
 
+class CADCanvas {
+	constructor() {
+		this.canvas = document.createElement('canvas');
+		this.$canvas = $(this.canvas);
+		this.context = this.canvas.getContext('3d');
+	}
+
+	get$Canvas() {
+		return this.$canvas;
+	}
+
+	startDrawing() {
+		// Huzza!
+	}
+
+	stopDrawing() {
+		// Huzza!
+	}
+}
+
 UI.init = function() {
 	const hostFiles = '/files';
 	$.getJSON(hostFiles, function (data) {
@@ -52,6 +72,7 @@ UI.Alternative = function(alt){
 	this.cad_file = alt.cad_file;
 	this.image = alt.image;
 	this.params = alt.params;
+	this.Output = alt.Output;
 
 	this.state = MAX_STATE;
 
@@ -59,6 +80,8 @@ UI.Alternative = function(alt){
 }
 
 UI.Alternative.prototype.initSelf = function () {
+
+	var isImage = true;
 
 	var container = document.createElement('div');
 	var $container = $(container);
@@ -70,12 +93,14 @@ UI.Alternative.prototype.initSelf = function () {
 	var canvas = document.createElement('canvas');
 	var $canvas = $(canvas);
 
-	$container.addClass('ui-widget-content');
+	// var canvas3D = document.createElement('canvas');
+	// var $canvas3D = $(canvas3D);
+	var cadCanvas = new CADCanvas();
+
 	var a = this.uid;
 	$container.dblclick(function(){
 		var data = getData(a);
 		sendJSON('restore',data);
-
 	});
 
 	var $minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button>');
@@ -101,7 +126,13 @@ UI.Alternative.prototype.initSelf = function () {
 	var $cadButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-lightbulb"></span></button><br>');
 	$container.append($cadButton);
 	$cadButton.click(function () {
-		console.log($canvas);
+		if (isImage) {
+			$canvas.replaceWith(cadCanvas.get$Canvas());
+		} else {
+			cadCanvas.get$Canvas().replaceWith(canvas);
+		}
+
+		isImage = !isImage;
 	});
 
 	var img = new Image();
@@ -121,10 +152,12 @@ UI.Alternative.prototype.initSelf = function () {
 		})
 		var li2 = $('<ul class="output style="margin:0px; padding:0px;">Output</ul>');
 		var list2 = $container.append(li2).find('ul');
-		Object.keys(this.Output).forEach(key => {
-			var str = '<li name='+key+'>' + '\t'+key+" \t:" + this.Output[key].toString() + '</li>';
-			list2.append(str);
-		})
+		if (this.Output) {
+			Object.keys(this.Output).forEach(key => {
+				var str = '<li name='+key+'>' + '\t'+key+" \t:" + this.Output[key].toString() + '</li>';
+				list2.append(str);
+			});
+		}
 		$container.find('ul').selectable({
 			filter:'li',
 			stop : function(e,ui){
