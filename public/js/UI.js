@@ -24,19 +24,44 @@ class CADCanvas {
 	constructor() {
 		this.canvas = document.createElement('canvas');
 		this.$canvas = $(this.canvas);
-		this.context = this.canvas.getContext('3d');
+		this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+		this.renderer.setSize(400, 400);
+
+		this.draw = false;
+
+		this.scene = new THREE.Scene();
+		this.camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+
+		this.geometry = new THREE.BoxGeometry( 1, 1, 1 );
+		this.material = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
+		this.cube = new THREE.Mesh(this.geometry, this.material);
+		this.scene.add(this.cube);
+		this.camera.position.z = 5;
 	}
 
 	get$Canvas() {
 		return this.$canvas;
 	}
 
+	render() {
+		this.cube.rotation.x += 0.1;
+		this.cube.rotation.y += 0.1;
+		this.renderer.render(this.scene, this.camera);
+	}
+
 	startDrawing() {
-		// Huzza!
+		this.draw = true;
+		var render = () => {
+			if (this.draw) {
+				requestAnimationFrame(render)
+			}
+			this.render();
+		}
+		render();
 	}
 
 	stopDrawing() {
-		// Huzza!
+		this.draw = false;
 	}
 }
 
@@ -93,8 +118,6 @@ UI.Alternative.prototype.initSelf = function () {
 	var canvas = document.createElement('canvas');
 	var $canvas = $(canvas);
 
-	// var canvas3D = document.createElement('canvas');
-	// var $canvas3D = $(canvas3D);
 	var cadCanvas = new CADCanvas();
 
 	var a = this.uid;
@@ -109,7 +132,7 @@ UI.Alternative.prototype.initSelf = function () {
 	$minButton.click(function() {
 		// this : DOMElement
 		if ($minButton.state === 'max') {
-			console.log('Minimizing.');
+			// console.log('Minimizing.');
 			$container.find('ul').slideUp(100, function() {
 				$canvas.animate({'height': 150, 'width': 150});
 			});
@@ -128,7 +151,9 @@ UI.Alternative.prototype.initSelf = function () {
 	$cadButton.click(function () {
 		if (isImage) {
 			$canvas.replaceWith(cadCanvas.get$Canvas());
+			cadCanvas.startDrawing();
 		} else {
+			cadCanvas.stopDrawing();
 			cadCanvas.get$Canvas().replaceWith(canvas);
 		}
 
