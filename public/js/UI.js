@@ -21,7 +21,7 @@ function getData(id){
 }
 
 class CADCanvas {
-	constructor() {
+	constructor(modelFile) {
 		this.canvas = document.createElement('canvas');
 		this.$canvas = $(this.canvas);
 		this.renderer = new THREE.WebGLRenderer({  canvas: this.canvas });
@@ -37,8 +37,13 @@ class CADCanvas {
 		this.geometry = new THREE.BoxGeometry( 1, 1, 1 );
 		this.material = new THREE.MeshLambertMaterial({ color: 0x00FF00 });
 
-		this.cube = new THREE.Mesh(this.geometry, this.material);
-		this.scene.add(this.cube);
+		// this.cube = new THREE.Mesh(this.geometry, this.material);
+		// this.scene.add(this.cube);
+
+		var loader = new THREE.OBJLoader();
+		loader.load(`/files/${modelFile}`, (object) => {
+			this.scene.add(object);
+		});
 
 		this.ambientLight = new THREE.AmbientLight(0x9c9c9c);
 		this.scene.add(this.ambientLight);
@@ -57,8 +62,6 @@ class CADCanvas {
 	render() {
 		this.controls.update();
 
-		// this.cube.rotation.x += 0.1;
-		// this.cube.rotation.y += 0.1;
 		this.renderer.render(this.scene, this.camera);
 	}
 
@@ -131,7 +134,7 @@ UI.Alternative.prototype.initSelf = function () {
 	var canvas = document.createElement('canvas');
 	var $canvas = $(canvas);
 
-	var cadCanvas = new CADCanvas();
+	var cadCanvas = new CADCanvas(this.cad_file);
 
 	var a = this.uid;
 	$container.dblclick(function(){
