@@ -24,18 +24,29 @@ class CADCanvas {
 	constructor() {
 		this.canvas = document.createElement('canvas');
 		this.$canvas = $(this.canvas);
-		this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas });
+		this.renderer = new THREE.WebGLRenderer({  canvas: this.canvas });
+		this.renderer.setClearColor( 0xdddddd, 1 );
 		this.renderer.setSize(400, 400);
 
 		this.draw = false;
 
 		this.scene = new THREE.Scene();
 		this.camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+		this.controls = new THREE.OrbitControls( this.camera );
 
 		this.geometry = new THREE.BoxGeometry( 1, 1, 1 );
-		this.material = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
+		this.material = new THREE.MeshLambertMaterial({ color: 0x00FF00 });
+
 		this.cube = new THREE.Mesh(this.geometry, this.material);
 		this.scene.add(this.cube);
+
+		this.ambientLight = new THREE.AmbientLight(0x9c9c9c);
+		this.scene.add(this.ambientLight);
+
+		this.directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+		this.directionalLight.position.set(0, 1, 1);
+		this.scene.add(this.directionalLight);
+
 		this.camera.position.z = 5;
 	}
 
@@ -44,8 +55,10 @@ class CADCanvas {
 	}
 
 	render() {
-		this.cube.rotation.x += 0.1;
-		this.cube.rotation.y += 0.1;
+		this.controls.update();
+
+		// this.cube.rotation.x += 0.1;
+		// this.cube.rotation.y += 0.1;
 		this.renderer.render(this.scene, this.camera);
 	}
 
@@ -199,7 +212,10 @@ UI.Alternative.prototype.initSelf = function () {
 				UI.Selection[paramName].splice(index, 1);
 			}
 		});
-		$container.draggable({cursor:'move', stack:".alt", containment: "window"});
+		$container.draggable({
+			cursor:'move', stack:".alt", containment: "window",
+			cancel: 'canvas'
+		});
 	}.bind(this);
 	img.src = '/files/' + this.image;
 }
