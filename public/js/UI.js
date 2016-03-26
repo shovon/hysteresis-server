@@ -20,6 +20,67 @@ function getData(id){
 	return json_data;
 }
 
+class CADCanvas {
+	constructor(modelFile) {
+		this.canvas = document.createElement('canvas');
+		this.$canvas = $(this.canvas);
+		this.renderer = new THREE.WebGLRenderer({  canvas: this.canvas });
+		this.renderer.setClearColor( 0xdddddd, 1 );
+		this.renderer.setSize(400, 400);
+
+		this.draw = false;
+
+		this.scene = new THREE.Scene();
+		this.camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+		this.controls = new THREE.OrbitControls( this.camera );
+
+		this.geometry = new THREE.BoxGeometry( 1, 1, 1 );
+		this.material = new THREE.MeshLambertMaterial({ color: 0x00FF00 });
+
+		// this.cube = new THREE.Mesh(this.geometry, this.material);
+		// this.scene.add(this.cube);
+
+		var loader = new THREE.OBJLoader();
+		loader.load(`/files/${modelFile}`, (object) => {
+			this.scene.add(object);
+		});
+
+		this.ambientLight = new THREE.AmbientLight(0x9c9c9c);
+		this.scene.add(this.ambientLight);
+
+		this.directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+		this.directionalLight.position.set(0, 1, 1);
+		this.scene.add(this.directionalLight);
+
+		this.camera.position.z = 5;
+	}
+
+	get$Canvas() {
+		return this.$canvas;
+	}
+
+	render() {
+		this.controls.update();
+
+		this.renderer.render(this.scene, this.camera);
+	}
+
+	startDrawing() {
+		this.draw = true;
+		var render = () => {
+			if (this.draw) {
+				requestAnimationFrame(render)
+			}
+			this.render();
+		}
+		render();
+	}
+
+	stopDrawing() {
+		this.draw = false;
+	}
+}
+
 UI.init = function() {
 	const hostFiles = '/files';
 	$.getJSON(hostFiles, function (data) {
@@ -52,6 +113,7 @@ UI.Alternative = function(alt){
 	this.cad_file = alt.cad_file;
 	this.image = alt.image;
 	this.params = alt.params;
+	this.Output = alt.Output;
 
 	this.state = MAX_STATE;
 
@@ -59,6 +121,8 @@ UI.Alternative = function(alt){
 }
 
 UI.Alternative.prototype.initSelf = function () {
+
+	var isImage = true;
 
 	var container = document.createElement('div');
 	var $container = $(container);
@@ -70,12 +134,12 @@ UI.Alternative.prototype.initSelf = function () {
 	var canvas = document.createElement('canvas');
 	var $canvas = $(canvas);
 
-	$container.addClass('ui-widget-content');
+	var cadCanvas = new CADCanvas(this.cad_file);
+
 	var a = this.uid;
 	$container.dblclick(function(){
 		var data = getData(a);
 		sendJSON('restore',data);
-
 	});
 
 	var $minButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-arrow-2-se-nw"></span></button>');
@@ -84,7 +148,7 @@ UI.Alternative.prototype.initSelf = function () {
 	$minButton.click(function() {
 		// this : DOMElement
 		if ($minButton.state === 'max') {
-			console.log('Minimizing.');
+			// console.log('Minimizing.');
 			$container.find('ul').slideUp(100, function() {
 				$canvas.animate({'height': 150, 'width': 150});
 			});
@@ -101,7 +165,15 @@ UI.Alternative.prototype.initSelf = function () {
 	var $cadButton = $('<button type="button" class="alt-button"><span class="ui-icon ui-icon-lightbulb"></span></button><br>');
 	$container.append($cadButton);
 	$cadButton.click(function () {
-		console.log($canvas);
+		if (isImage) {
+			$canvas.replaceWith(cadCanvas.get$Canvas());
+			cadCanvas.startDrawing();
+		} else {
+			cadCanvas.stopDrawing();
+			cadCanvas.get$Canvas().replaceWith(canvas);
+		}
+
+		isImage = !isImage;
 	});
 
 	var img = new Image();
@@ -121,10 +193,12 @@ UI.Alternative.prototype.initSelf = function () {
 		})
 		var li2 = $('<ul class="output style="margin:0px; padding:0px;">Output</ul>');
 		var list2 = $container.append(li2).find('ul');
-		Object.keys(this.Output).forEach(key => {
-			var str = '<li name='+key+'>' + '\t'+key+" \t:" + this.Output[key].toString() + '</li>';
-			list2.append(str);
-		})
+		if (this.Output) {
+			Object.keys(this.Output).forEach(key => {
+				var str = '<li name='+key+'>' + '\t'+key+" \t:" + this.Output[key].toString() + '</li>';
+				list2.append(str);
+			});
+		}
 		$container.find('ul').selectable({
 			filter:'li',
 			stop : function(e,ui){
@@ -141,7 +215,10 @@ UI.Alternative.prototype.initSelf = function () {
 				UI.Selection[paramName].splice(index, 1);
 			}
 		});
-		$container.draggable({cursor:'move', stack:".alt", containment: "window"});
+		$container.draggable({
+			cursor:'move', stack:".alt", containment: "window",
+			cancel: 'canvas'
+		});
 	}.bind(this);
 	img.src = '/files/' + this.image;
 }
