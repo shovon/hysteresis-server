@@ -183,7 +183,7 @@ UI.Alternative.prototype.initSelf = function () {
 		var ctx = $canvas.get(0).getContext('2d');
 		ctx.drawImage(img,0,0,img.width,img.height,0,0,400,400);
 		$container.append($canvas);
-		var li = $('<ul class="params style="margin:0px; padding:0px;">Input</ul>');
+		var li = $('<ul class="params">Input</ul>');
 		li.attr({'id':this.uid});
 		var list = $container.append(li).find('ul');
 		Object.keys(this.params).forEach(key => {
@@ -191,15 +191,15 @@ UI.Alternative.prototype.initSelf = function () {
 			list.append(str);
 			UI.Selection[key]=[];
 		})
-		var li2 = $('<ul class="output style="margin:0px; padding:0px;">Output</ul>');
-		var list2 = $container.append(li2).find('ul');
+		var li2 = $('<ul class="output">Output</ul>');
+		var list2 = $container.append(li2).find('ul.output');
 		if (this.Output) {
 			Object.keys(this.Output).forEach(key => {
 				var str = '<li name='+key+'>' + '\t'+key+" \t:" + this.Output[key].toString() + '</li>';
 				list2.append(str);
 			});
 		}
-		$container.find('ul').selectable({
+		$container.find('ul.params').selectable({
 			filter:'li',
 			stop : function(e,ui){
 				$('.ui-selected', this).each(function(){
