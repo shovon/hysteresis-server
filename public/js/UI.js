@@ -31,7 +31,7 @@ class CADCanvas {
 		this.draw = false;
 
 		this.scene = new THREE.Scene();
-		this.camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+		this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
 		this.controls = new THREE.OrbitControls( this.camera );
 
 		this.geometry = new THREE.BoxGeometry( 1, 1, 1 );
@@ -43,6 +43,8 @@ class CADCanvas {
 		var loader = new THREE.OBJLoader();
 		loader.load(`/files/${modelFile}`, (object) => {
 			this.scene.add(object);
+			console.log(object)
+			this.camera.lookAt(object.children[0].position)
 		});
 
 		this.ambientLight = new THREE.AmbientLight(0x9c9c9c);
@@ -52,7 +54,7 @@ class CADCanvas {
 		this.directionalLight.position.set(0, 1, 1);
 		this.scene.add(this.directionalLight);
 
-		this.camera.position.z = 5;
+
 	}
 
 	get$Canvas() {
