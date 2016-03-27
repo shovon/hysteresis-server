@@ -44,6 +44,7 @@ class CADCanvas {
 		loader.load(`/files/${modelFile}`, (object) => {
 			this.scene.add(object);
 			console.log(object)
+			this.camera.position.z = -200;
 			this.camera.lookAt(object.children[0].position)
 		});
 
