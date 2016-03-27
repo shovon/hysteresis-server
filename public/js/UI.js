@@ -42,6 +42,7 @@ class CADCanvas {
 
 		var loader = new THREE.OBJLoader();
 		loader.load(`/files/${modelFile}`, (object) => {
+			object.up.set(0,0,1);
 			this.scene.add(object);
 			console.log(object)
 			this.camera.position.z = -200;
@@ -52,8 +53,11 @@ class CADCanvas {
 		this.scene.add(this.ambientLight);
 
 		this.directionalLight = new THREE.DirectionalLight(0xFFFFFF, 0.5);
-		this.directionalLight.position.set(0, 1, 1);
+		this.directionalLight.position.set(-0.5, 1, -1);
+		this.directionalLight2 = new THREE.DirectionalLight(0xFFFFFF, 0.5);
+		this.directionalLight2.position.set(0.5, 1, 1);
 		this.scene.add(this.directionalLight);
+		this.scene.add(this.directionalLight2);
 
 
 	}
