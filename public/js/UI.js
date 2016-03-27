@@ -42,11 +42,21 @@ class CADCanvas {
 
 		var loader = new THREE.OBJLoader();
 		loader.load(`/files/${modelFile}`, (object) => {
-			object.up.set(0,0,1);
+
+			var cg = new THREE.Vector3(0,0,0);
+			var r = 0;
+			for (var i=0;i<object.children.length;i++) {
+				object.children[i].geometry.computeBoundingSphere();
+				cg.add(object.children[i].geometry.boundingSphere.center);
+				r=r+object.children[i].geometry.boundingSphere.radius;			
+			};
+
+			cg.divideScalar(object.children.length*-1);
+			object.position.add(cg);
+			this.camera.position.set(object.position.x, object.position.y, object.position.z-100);
+			this.camera.lookAt(object.position);
 			this.scene.add(object);
-			console.log(object)
-			this.camera.position.z = -200;
-			this.camera.lookAt(object.children[0].position)
+
 		});
 
 		this.ambientLight = new THREE.AmbientLight(0x9c9c9c);
