@@ -10,7 +10,7 @@ h1 {
 .alt {
 	margin:20;
 	background-color: #DDDDDD;
-    position: absolute;
+    float: left;
 	height: auto;
 	width: auto;
 	border-radius: 5px;
@@ -41,7 +41,7 @@ img {
 ul {
 	margin-left: 50px;
 	width: 60%;
-	font-size: medium;
+	font-size: 120%;
 	font-family: "Monaco", Monaco, monospace;
 }
 
@@ -66,13 +66,13 @@ ul .params {
 
 .toolbar-button{
     background-color: #0088CC;
+    font-size: 24px;
     border: none;
     color: white;
     padding: 10px 21px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 12px;
     border-bottom: 5px solid #00AACC;
     border-radius: 3px;
     box-shadow: 0px 3px 3px #999999;
@@ -86,7 +86,7 @@ ul .params {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 8px;
+    font-size: 150%;
     border-bottom: 2px solid #eeeeee;
     border-radius: 1px;
     box-shadow: 0px 3px 3px #999999;
@@ -105,3 +105,10 @@ ul .params {
     border-radius: 3px;
     box-shadow: 0px 3px 3px #999999;
 }*/
+
+.selector{
+    margin: 0;
+    padding: 0;
+    width: auto;
+    height: 30px;
+}

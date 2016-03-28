@@ -148,16 +148,16 @@ UI.Alternative.prototype.initSelf = function () {
 
 	$('#workspace').append($container);
 
-	position = {
-		"top": Math.random()*$(window).innerHeight(),
-		"left": Math.random()*$(window).innerWidth()
-		}
-	$container.css("top", position.top);
-	$container.css("left", position.left);	
-	// position = $container.position()
-	// $container.css("position","absolute");
-	// $container.css("top",position.top);
-	// $container.css("left",position.left);
+	// position = {
+	// 	"top": Math.random()*$(window).innerHeight(),
+	// 	"left": Math.random()*$(window).innerWidth()
+	// 	}
+	// $container.css("top", position.top);
+	// $container.css("left", position.left);	
+	// // position = $container.position()
+	// // $container.css("position","absolute");
+	// // $container.css("top",position.top);
+	// // $container.css("left",position.left);
 
 	var canvas = document.createElement('canvas');
 	var $canvas = $(canvas);
@@ -241,14 +241,31 @@ UI.Alternative.prototype.initSelf = function () {
 				var paramName = $(ui.unselected).attr('name');
 				var index = UI.Selection[paramName].indexOf(UI.AltList[altId]['params'][paramName]);
 				UI.Selection[paramName].splice(index, 1);
-			}
+			},
 		});
 		$container.draggable({
 			cursor:'move', stack:".alt", containment: "window",
 			cancel: 'canvas'
 		});
+		var selector = document.createElement('div');
+		$selector = $(selector);
+		$selector.attr("class","selector");
+		$container.append($selector);
+
+		$selector.selectable();
+		// $container.selectable({
+		// 	filter: "canvas",
+		// 	appendTo: "body",
+		// 	cancel : "ul, li",
+		// 	stop : function(e,ui){
+		// 		$('.ui-selected', this).each(function(){
+		// 			$(this).parent().css("background-color","#7CADAD");
+		// 		});
+		// 	}
+		// });
 	}.bind(this);
 	img.src = '/files/' + this.image;
+
 }
 
 UI.Alternative.prototype.loadImage = function(uid, source) {}
