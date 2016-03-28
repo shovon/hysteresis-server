@@ -146,7 +146,18 @@ UI.Alternative.prototype.initSelf = function () {
 	$container.attr('id', `alt-${this.uid}`);
 	$container.addClass('alt ui-widget-content');
 
-	$('body').append(container);
+	$('#workspace').append($container);
+
+	position = {
+		"top": Math.random()*$(window).innerHeight(),
+		"left": Math.random()*$(window).innerHeight()
+		}
+	$container.css("top", position.top);
+	$container.css("left", position.left);	
+	// position = $container.position()
+	// $container.css("position","absolute");
+	// $container.css("top",position.top);
+	// $container.css("left",position.left);
 
 	var canvas = document.createElement('canvas');
 	var $canvas = $(canvas);
