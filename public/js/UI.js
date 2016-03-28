@@ -32,7 +32,7 @@ class CADCanvas {
 
 		this.scene = new THREE.Scene();
 		this.camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-		this.controls = new THREE.OrbitControls( this.camera );
+		this.controls = new THREE.OrbitControls( this.camera, this.canvas );
 
 		this.geometry = new THREE.BoxGeometry( 1, 1, 1 );
 		this.material = new THREE.MeshLambertMaterial({ color: 0x00FF00 });
@@ -48,7 +48,7 @@ class CADCanvas {
 			for (var i=0;i<object.children.length;i++) {
 				object.children[i].geometry.computeBoundingSphere();
 				cg.add(object.children[i].geometry.boundingSphere.center);
-				r=r+object.children[i].geometry.boundingSphere.radius;			
+				r=r+object.children[i].geometry.boundingSphere.radius;
 			};
 
 			cg.divideScalar(object.children.length*-1);
@@ -158,7 +158,7 @@ UI.Alternative.prototype.initSelf = function () {
 	// 	"left": Math.random()*$(window).innerWidth()
 	// 	}
 	// $container.css("top", position.top);
-	// $container.css("left", position.left);	
+	// $container.css("left", position.left);
 	// // position = $container.position()
 	// // $container.css("position","absolute");
 	// // $container.css("top",position.top);
