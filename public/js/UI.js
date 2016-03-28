@@ -6,7 +6,7 @@ const host = 'http://localhost:3100';
 
 // var socket = io('ws://localhost:3100');
 var socket = io();
-
+console.log(d3.layout.circle().center(500,500).radius(133));
 function sendJSON(filename, payload) {
 	socket.emit('send state', {
 		filename: filename,
