@@ -150,7 +150,7 @@ UI.Alternative.prototype.initSelf = function () {
 
 	position = {
 		"top": Math.random()*$(window).innerHeight(),
-		"left": Math.random()*$(window).innerHeight()
+		"left": Math.random()*$(window).innerWidth()
 		}
 	$container.css("top", position.top);
 	$container.css("left", position.left);	
