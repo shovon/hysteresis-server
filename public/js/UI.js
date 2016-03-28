@@ -120,6 +120,11 @@ UI.init = function() {
 	$('#send-to-program').click(function () {
 		sendJSON('kernel', UI.Selection);
 	});
+	$('#layout').click(function(){
+		d3.selectAll(".alt").style("color", function(){
+  			return "hsl(" + Math.random() * 360 + ",100%,50%)";
+		});
+	});
 }
 
 const MIN_STATE = 'min';
