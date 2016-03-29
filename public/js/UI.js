@@ -45,18 +45,17 @@ class CADCanvas {
 
 			var cg = new THREE.Vector3(0,0,0);
 			var r = 0;
-			for (var i=0;i<object.children.length;i++) {
+			for (var i = 0; i < object.children.length; i++) {
 				object.children[i].geometry.computeBoundingSphere();
 				cg.add(object.children[i].geometry.boundingSphere.center);
-				r=r+object.children[i].geometry.boundingSphere.radius;
-			};
+				r = r + object.children[i].geometry.boundingSphere.radius;
+			}
 
 			cg.divideScalar(object.children.length*-1);
 			object.position.add(cg);
 			this.camera.position.set(object.position.x, object.position.y, object.position.z-100);
 			this.camera.lookAt(object.position);
 			this.scene.add(object);
-
 		});
 
 		this.ambientLight = new THREE.AmbientLight(0x9c9c9c);
@@ -68,8 +67,6 @@ class CADCanvas {
 		this.directionalLight2.position.set(0.5, 1, 1);
 		this.scene.add(this.directionalLight);
 		this.scene.add(this.directionalLight2);
-
-
 	}
 
 	get$Canvas() {
@@ -104,7 +101,7 @@ UI.init = function() {
 		data.forEach(function (datum) {
 			$.getJSON(hostFiles + '/' + datum + '.json', function (obj) {
 				var alt = new UI.Alternative(obj);
-				UI.AltList[alt.uid]=alt;
+				UI.AltList[alt.uid] = alt;
 			});
 		});
 	});
@@ -117,12 +114,18 @@ UI.init = function() {
 		});
 	});
 
+	socket.on('file deleted', function (msg) {
+		// TODO: actually go ahead and delete the alternative.
+		console.log('file deleted');
+	});
+
 	$('#send-to-program').click(function () {
 		sendJSON('kernel', UI.Selection);
 	});
+
 	$('#layout').click(function(){
 		d3.selectAll(".alt").style("color", function(){
-  			return "hsl(" + Math.random() * 360 + ",100%,50%)";
+			return "hsl(" + Math.random() * 360 + ",100%,50%)";
 		});
 	});
 }

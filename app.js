@@ -26,6 +26,10 @@ const monitorPath = path.resolve(process.cwd(), assetsPath);
 const files = {
 };
 
+function hasFile(id) {
+  return files[id].hasImage && files[id].hasMeta && files[id].hasModel;
+}
+
 const app = express();
 const server = http.Server(app);
 
@@ -37,23 +41,31 @@ function fsEvent(name, filepath) {
   const filename = path.basename(filepath);
   const noext = filename.slice(0, filename.length - extname.length);
   files[noext] = files[noext] || { hasImage: false, hasMeta: false }
-  files[noext].hasImage = files[noext].hasImage || extname === '.bmp';
-  files[noext].hasMeta = files[noext].hasMeta || extname === '.json';
-  files[noext].hasModel = files[noext].hasModel || extname === '.obj';
   switch (name) {
   case 'add':
-    if (files[noext].hasImage && files[noext].hasMeta && files[noext].hasModel) {
+    files[noext].hasImage = files[noext].hasImage || extname === '.bmp';
+    files[noext].hasMeta = files[noext].hasMeta || extname === '.json';
+    files[noext].hasModel = files[noext].hasModel || extname === '.obj';
+
+    if (hasFile(noext)) {
       debug('We have both images!');
       io.emit('file created', noext);
     }
     debug(`file ${noext.slice(0, 8)}. Has image ${files[noext].hasImage}, ${files[noext].hasMeta}, ${files[noext].hasModel}`)
     break;
   case 'change':
-    // Do some change-related tasks here.
+
     break;
   case 'unlink':
     debug('File deleted');
-    io.emit('file deleted', noexit);
+    files[noext].hasImage = !(files[noext].hasImage || extname === '.bmp');
+    files[noext].hasMeta = !(files[noext].hasMeta || extname === '.json');
+    files[noext].hasModel = !(files[noext].hasModel || extname === '.obj');
+
+    if (!hasFile(noext)) {
+      debug('We lost an image!');
+      io.emit('files deleted', noext);
+    }
     break;
   default:
     debug('Neither an add or delete event')
@@ -126,11 +138,15 @@ chokidar.watch(monitorPath).on('change', (filepath) => {
   fsEvent('change', filepath);
 });
 
+chokidar.watch(monitorPath).on('unlink', (filepath) => {
+  fsEvent('unlink', filepath);
+});
+
 app.use(cors());
 app.use(express.static(path.resolve(__dirname, 'public')))
 
 app.get('/files', (req, res, next) => {
-  res.json(Object.keys(files));
+  res.json(Object.keys(files).filter(file => hasFile(file)));
 });
 
 app.get('/files/:id', function (req, res, next) {
