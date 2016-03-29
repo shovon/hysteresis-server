@@ -15,7 +15,7 @@ function sendJSON(filename, payload) {
 }
 
 function getData(id){
-	var json_data = {"Foo":{"Bar":"Baz"}};
+	var json_data = { "Foo": { "Bar": "Baz" } };
 	json_data['params'] = UI.AltList[id]['params'];
 	return json_data;
 }

@@ -39,13 +39,14 @@ function fsEvent(name, filepath) {
   files[noext] = files[noext] || { hasImage: false, hasMeta: false }
   files[noext].hasImage = files[noext].hasImage || extname === '.bmp';
   files[noext].hasMeta = files[noext].hasMeta || extname === '.json';
+  files[noext].hasModel = files[noext].hasModel || extname === '.obj';
   switch (name) {
   case 'add':
-    if (files[noext].hasImage && files[noext].hasMeta) {
+    if (files[noext].hasImage && files[noext].hasMeta && files[noext].hasModel) {
       debug('We have both images!');
       io.emit('file created', noext);
     }
-    debug(`file ${noext.slice(0, 8)}. Has image ${files[noext].hasImage}, ${files[noext].hasMeta}`)
+    debug(`file ${noext.slice(0, 8)}. Has image ${files[noext].hasImage}, ${files[noext].hasMeta}, ${files[noext].hasModel}`)
     break;
   case 'change':
     // Do some change-related tasks here.
