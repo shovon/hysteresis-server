@@ -98,11 +98,17 @@ class CADCanvas {
 UI.init = function() {
 	const hostFiles = '/files';
 	$.getJSON(hostFiles, function (data) {
-		data.forEach(function (datum) {
+		async.each(data, function (datum, callback) {
 			$.getJSON(hostFiles + '/' + datum + '.json', function (obj) {
 				var alt = new UI.Alternative(obj);
 				UI.AltList[alt.uid] = alt;
+				callback();
 			});
+		}, function () {
+				Object.keys(UI.AltList).forEach(key => {
+					UI.AltList[key].setAbsolute(true);
+				});
+				console.log('Good');
 		});
 	});
 
@@ -110,6 +116,7 @@ UI.init = function() {
 		console.log("file created");
 		$.getJSON(hostFiles + '/' + msg + '.json', function (data) {
 				var alt = new UI.Alternative(data);
+				alt.setAbsolute();
 				UI.AltList[alt.uid] = alt;
 		});
 	});
@@ -145,12 +152,75 @@ UI.Alternative = function(alt){
 	this.initSelf();
 }
 
+UI.Alternative.prototype.setAbsolute = function (wait) {
+	if (wait) {
+		setTimeout(() => {
+			const position = this.$container.position();
+			setTimeout(() => {
+				this.$container.css({
+					position: 'absolute',
+					top: position.top,
+					left: position.left
+				});
+			}, 16);
+		}, 500);
+	} else {
+		const alts = Object.keys(UI.AltList).map(key => UI.AltList[key]);
+		const width = alts.reduce((prev, curr) => {
+			const newWidth = curr.getLeft() + curr.getWidth()
+			if (prev < newWidth) {
+				return newWidth;
+			}
+			return prev;
+		}, alts[0].getWidth() + alts[0].getLeft());
+		const height = alts.reduce((prev, curr) => {
+			const newHeight = curr.getTop() + curr.getHeight();
+			if (prev < newHeight) {
+				return newHeight;
+			}
+			return prev;
+		}, alts[0].getHeight() + alts[0].getTop());
+		if (width + alts[0].getWidth() > $(window).width()) {
+			this.$container.css({
+				position: 'absolute',
+				top: (height).toString() + 'px',
+				left: 0
+			})
+		} else {
+			console.log(width, $(window).width() + alts[0].getWidth());
+			console.log('Not too narrow');
+			this.$container.css({
+				position: 'absolute',
+				top: 0,
+				left: (width).toString() + 'px'
+			})
+		}
+	}
+};
+
+UI.Alternative.prototype.getTop = function () {
+	return this.$container.position().top;
+}
+
+UI.Alternative.prototype.getLeft = function () {
+	return this.$container.position().left;
+}
+
+UI.Alternative.prototype.getWidth = function () {
+	return this.$container.outerWidth(true);
+};
+
+UI.Alternative.prototype.getHeight = function () {
+	return this.$container.outerHeight(true);
+}
+
 UI.Alternative.prototype.initSelf = function () {
 
 	var isImage = true;
 
 	var container = document.createElement('div');
 	var $container = $(container);
+	this.$container = $container;
 	$container.attr('id', `alt-${this.uid}`);
 	$container.addClass('alt ui-widget-content');
 
