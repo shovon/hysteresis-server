@@ -130,9 +130,20 @@ UI.init = function() {
 		sendJSON('kernel', UI.Selection);
 	});
 
-	$('#layout').click(function(){
-		d3.selectAll(".alt").style("color", function(){
-			return "hsl(" + Math.random() * 360 + ",100%,50%)";
+	$('#btn-layout').click(function(){
+		// d3.selectAll(".alt").style("color", function(){
+		// 	return "hsl(" + Math.random() * 360 + ",100%,50%)";
+		// });
+		var data = d3.range($('.alt').length).map(function(d,i){ return {};});
+		var layoutfn = d3.layout.circle().center(500,500).radius(133);
+		var pts = layoutfn(data);
+		console.log(pts);
+		$('.alt').each(function(index){
+			$(this).css({
+				position : "absolute",
+				top : pts[index].y,
+				left : pts[index].x
+			})
 		});
 	});
 }
