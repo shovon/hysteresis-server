@@ -131,20 +131,43 @@ UI.init = function() {
 	});
 
 	$('#btn-layout').click(function(){
-		// d3.selectAll(".alt").style("color", function(){
-		// 	return "hsl(" + Math.random() * 360 + ",100%,50%)";
-		// });
-		var data = d3.range($('.alt').length).map(function(d,i){ return {};});
-		var layoutfn = d3.layout.circle().center(500,500).radius(133);
+		var boundingRect = {
+			"x": [],
+			"y":[],
+			"width": [],
+			"height":[]
+		};
+		var checked = [];
+		$("input:checked").each(function(){
+			var altDiv = $(this).parent().parent();
+			checked.push(altDiv)
+			var bounds = altDiv[0].getBoundingClientRect();
+			boundingRect["x"].push(bounds.left);
+			boundingRect["y"].push(bounds.top);
+			boundingRect["width"].push(bounds.left+bounds.width);
+			boundingRect["height"].push(bounds.top+bounds.height);
+		});
+
+		boundingRect["x"].sort(function(a, b){return a-b});
+		boundingRect["y"].sort(function(a, b){return a-b});
+		boundingRect["width"].sort(function(a, b){return b-a});
+		boundingRect["height"].sort(function(a, b){return b-a});
+
+		var centerX = (boundingRect["x"][0] + boundingRect["width"][0])/2;
+		var centerY = (boundingRect["y"][0] + boundingRect["height"][0])/2;
+		var radius = (Math.sqrt(Math.pow(boundingRect["width"][0] - boundingRect["x"][0],2) + Math.pow(boundingRect["height"][0] - boundingRect["y"][0],2)))/3;
+
+		var data = d3.range(checked.length).map(function(d,i){ return {};});
+		var layoutfn = d3.layout.circle().center(centerX,centerY).radius(133);
 		var pts = layoutfn(data);
 		console.log(pts);
-		$('.alt').each(function(index){
-			$(this).css({
+		for(var i=0; i<checked.length;i++){
+			$(checked[i]).css({
 				position : "absolute",
-				top : pts[index].y,
-				left : pts[index].x
-			})
-		});
+				top : pts[i].y,
+				left : pts[i].x				
+			});
+		}
 	});
 }
 
@@ -293,6 +316,8 @@ UI.Alternative.prototype.initSelf = function () {
 		isImage = !isImage;
 	});
 
+
+
 	var img = new Image();
 	img.onload = function () {
 		this.img = img;
@@ -338,10 +363,18 @@ UI.Alternative.prototype.initSelf = function () {
 		});
 		var selector = document.createElement('div');
 		$selector = $(selector);
+		$selector.append('<input type="checkbox" name="myCheckbox" />');
 		$selector.attr("class","selector");
 		$container.append($selector);
 
-		$selector.selectable();
+		// $selector.selectable({
+		// 	filter: "div",
+		// 	cancel: "ul, li, canvas",
+		// 	stop : function(e,ui){
+		// 		$(this).css("background-color", "#7CADAD");
+		// 	},
+		// 	tolerance: "touch"
+		// });
 		// $container.selectable({
 		// 	filter: "canvas",
 		// 	appendTo: "body",
