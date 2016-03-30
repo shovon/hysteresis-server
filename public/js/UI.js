@@ -158,7 +158,7 @@ UI.init = function() {
 		var radius = (Math.sqrt(Math.pow(boundingRect["width"][0] - boundingRect["x"][0],2) + Math.pow(boundingRect["height"][0] - boundingRect["y"][0],2)))/3;
 
 		var data = d3.range(checked.length).map(function(d,i){ return {};});
-		var layoutfn = d3.layout.circle().center(centerX,centerY).radius(133);
+		var layoutfn = d3.layout.circle().center(centerX,centerY).radius(radius);
 		var pts = layoutfn(data);
 		console.log(pts);
 		for(var i=0; i<checked.length;i++){
