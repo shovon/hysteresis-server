@@ -4,6 +4,27 @@ UI.Selection = {};
 
 const host = 'http://localhost:3100';
 
+function saveLocation(uid, x, y) {
+	localStorage[uid] = JSON.stringify({ x, y });
+}
+
+function getLocation(uid) { /* { x: number, y: number } */
+	return localStorage[uid];
+}
+
+setInterval(() => {
+	if (UI.AltList) {
+		console.log(localStorage);
+		Object.keys(UI.AltList).forEach(key => {
+			saveLocation(
+				key,
+				UI.AltList[key].$container.position().left,
+				UI.AltList[key].$container.position().top
+			);
+		});
+	}
+}, 500);
+
 // var socket = io('ws://localhost:3100');
 var socket = io();
 console.log(d3.layout.circle().center(500,500).radius(133));
@@ -15,7 +36,7 @@ function sendJSON(filename, payload) {
 }
 
 function getData(id){
-	var json_data = { "Foo": { "Bar": "Baz" } };
+	var json_data = {};
 	json_data['params'] = UI.AltList[id]['params'];
 	return json_data;
 }
@@ -187,6 +208,18 @@ UI.Alternative = function(alt){
 }
 
 UI.Alternative.prototype.setAbsolute = function (wait) {
+	const locationJSON = getLocation(this.uid);
+	if (
+		location
+	) {
+		const location = JSON.parse(locationJSON);
+		this.$container.css({
+			position: 'absolute',
+			left: location.x,
+			top: location.y
+		});
+		return;
+	}
 	if (wait) {
 		setTimeout(() => {
 			const position = this.$container.position();
