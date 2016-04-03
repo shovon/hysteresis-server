@@ -1,0 +1,124 @@
+<Workspace Version="0.9.1.3872" X="338.335237845788" Y="446.723356502124" zoom="0.172726623655101" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Directory" resolvedName="DSCore.IO.Directory" assemblyName="DSCoreNodes.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="b9ef6f29-d60e-4634-941b-0787b2b1adee" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Cylinder.ByRadiusHeight" x="2891.60852562689" y="-1174.33671564634" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Cylinder.ByRadiusHeight@Autodesk.DesignScript.Geometry.CoordinateSystem,double,double">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="1be90737-598e-4821-94d7-7bb19ef1f935" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Design Vector Expander" x="2157.54592893243" y="-594.669105219721" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" CodeText="l[0];&#xA;l[1];" ShouldFocus="false" />
+    <PythonNodeModels.PythonNode guid="307ba168-7f8a-48a4-85e0-74b653ef8204" type="PythonNodeModels.PythonNode" nickname="Design Vector Value Filter" x="1401.50245139447" y="-236.712509051179" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" inputcount="1">
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+vals=[]
+for designParam in IN[0]:
+	vals.append(designParam[1])
+
+#Assign your output to the OUT variable.
+OUT = vals</Script>
+    </PythonNodeModels.PythonNode>
+    <FluxPipe.Dynamo.NodeModels.FluxProjectKeys guid="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" type="FluxPipe.Dynamo.NodeModels.FluxProjectKeys" nickname="Data Keys" x="597.805456574718" y="-319.282561969876" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" />
+    <FluxPipe.Dynamo.NodeModels.FluxModeSwitcher guid="e312384f-d9dc-4270-a93c-cd7f29620045" type="FluxPipe.Dynamo.NodeModels.FluxModeSwitcher" nickname="Flow Control" x="773.333037514509" y="-16.2875080267116" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <instance data="Constantly" />
+    </FluxPipe.Dynamo.NodeModels.FluxModeSwitcher>
+    <FluxPipe.Dynamo.NodeModels.FluxSelector guid="cafb64db-d68c-467a-9d3f-6966ff6272b2" type="FluxPipe.Dynamo.NodeModels.FluxSelector" nickname="Select Project" x="283.453844173077" y="-287.695156006616" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <instance id="alzA1p5G90ojx2XNL" type="Flux.SDK.Types.FluxProject" />
+    </FluxPipe.Dynamo.NodeModels.FluxSelector>
+    <FluxPipe.Dynamo.NodeModels.FluxSelector guid="56d03270-ed71-467b-8998-b5f8e7ecee1c" type="FluxPipe.Dynamo.NodeModels.FluxSelector" nickname="Select Key" x="884.651008496745" y="-244.732358419326" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <instance id="404837091a600aba6debf6c4ef5e8014" type="FluxPipe.Dynamo.Utilities.MyFluxKey" />
+    </FluxPipe.Dynamo.NodeModels.FluxSelector>
+    <FluxPipe.Dynamo.NodeModels.FromFlux guid="5a3a8dec-58ad-4850-9ac3-eb4bdf4eb592" type="FluxPipe.Dynamo.NodeModels.FromFlux" nickname="From Flux" x="1204.75925594224" y="-235.435158940355" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <PortInfo index="1" default="True" />
+      <instance data="PD94bWwgdmVyc2lvbj0iMS4wIj8+DQo8QXJyYXlPZkFueVR5cGUgeG1sbnM6eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+DQogIDxhbnlUeXBlIHhzaTp0eXBlPSJBcnJheU9mQW55VHlwZSI+DQogICAgPGFueVR5cGUgeHNpOnR5cGU9IkFycmF5T2ZBbnlUeXBlIj4NCiAgICAgIDxhbnlUeXBlIHhzaTp0eXBlPSJ4c2Q6c3RyaW5nIj5yYWRpdXM8L2FueVR5cGU+DQogICAgICA8YW55VHlwZSB4c2k6dHlwZT0ieHNkOmRvdWJsZSI+MTwvYW55VHlwZT4NCiAgICA8L2FueVR5cGU+DQogICAgPGFueVR5cGUgeHNpOnR5cGU9IkFycmF5T2ZBbnlUeXBlIj4NCiAgICAgIDxhbnlUeXBlIHhzaTp0eXBlPSJ4c2Q6c3RyaW5nIj5oZWlnaHQ8L2FueVR5cGU+DQogICAgICA8YW55VHlwZSB4c2k6dHlwZT0ieHNkOmRvdWJsZSI+MTwvYW55VHlwZT4NCiAgICA8L2FueVR5cGU+DQogIDwvYW55VHlwZT4NCjwvQXJyYXlPZkFueVR5cGU+" key="404837091a600aba6debf6c4ef5e8014" />
+    </FluxPipe.Dynamo.NodeModels.FromFlux>
+    <FluxPipe.Dynamo.NodeModels.FluxProjectKeys guid="252c5ae9-5829-4bda-ab3c-f6e9b5dbcfb1" type="FluxPipe.Dynamo.NodeModels.FluxProjectKeys" nickname="Data Keys" x="3811.89971370688" y="229.722541469463" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" />
+    <FluxPipe.Dynamo.NodeModels.FluxSelector guid="bee22016-f2c4-473a-bfa4-06f37ba3786b" type="FluxPipe.Dynamo.NodeModels.FluxSelector" nickname="Select Project" x="3540.53857099853" y="226.640213809103" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <instance id="alzA1p5G90ojx2XNL" type="Flux.SDK.Types.FluxProject" />
+    </FluxPipe.Dynamo.NodeModels.FluxSelector>
+    <FluxPipe.Dynamo.NodeModels.FluxSelector guid="75f79936-c1ac-407a-8a04-139c357d1085" type="FluxPipe.Dynamo.NodeModels.FluxSelector" nickname="Select Key" x="3982.1670142623" y="226.656514898724" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <instance id="401398f6828ee6dd947910be7854c4dc" type="FluxPipe.Dynamo.Utilities.MyFluxKey" />
+    </FluxPipe.Dynamo.NodeModels.FluxSelector>
+    <FluxPipe.Dynamo.NodeModels.FluxModeSwitcher guid="554efdcf-b9c9-4af0-b914-6f056031f792" type="FluxPipe.Dynamo.NodeModels.FluxModeSwitcher" nickname="Flow Control" x="4056.76676189392" y="330.517527205719" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <instance data="Constantly" />
+    </FluxPipe.Dynamo.NodeModels.FluxModeSwitcher>
+    <FluxPipe.Dynamo.NodeModels.ToFlux guid="f7c6eafc-f092-4c2a-acee-85ee1fb75740" type="FluxPipe.Dynamo.NodeModels.ToFlux" nickname="To Flux" x="4423.67862131292" y="466.852113144073" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <PortInfo index="1" default="True" />
+    </FluxPipe.Dynamo.NodeModels.ToFlux>
+    <FluxPipe.Dynamo.NodeModels.FluxProjects guid="eed29e36-add3-4e60-9659-752e817dc5cd" type="FluxPipe.Dynamo.NodeModels.FluxProjects" nickname="Flux Projects" x="-23.4306229598538" y="-362.715953993529" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" />
+    <FluxPipe.Dynamo.NodeModels.FluxProjects guid="847fc6db-c764-4f52-8087-00000a08805b" type="FluxPipe.Dynamo.NodeModels.FluxProjects" nickname="Flux Projects" x="3344.5268302536" y="177.661771312124" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="b9ef6f29-d60e-4634-941b-0787b2b1adee" start_index="0" end="f7c6eafc-f092-4c2a-acee-85ee1fb75740" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1be90737-598e-4821-94d7-7bb19ef1f935" start_index="0" end="b9ef6f29-d60e-4634-941b-0787b2b1adee" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1be90737-598e-4821-94d7-7bb19ef1f935" start_index="1" end="b9ef6f29-d60e-4634-941b-0787b2b1adee" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="307ba168-7f8a-48a4-85e0-74b653ef8204" start_index="0" end="1be90737-598e-4821-94d7-7bb19ef1f935" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" start_index="0" end="56d03270-ed71-467b-8998-b5f8e7ecee1c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e312384f-d9dc-4270-a93c-cd7f29620045" start_index="0" end="5a3a8dec-58ad-4850-9ac3-eb4bdf4eb592" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="cafb64db-d68c-467a-9d3f-6966ff6272b2" start_index="0" end="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="56d03270-ed71-467b-8998-b5f8e7ecee1c" start_index="0" end="5a3a8dec-58ad-4850-9ac3-eb4bdf4eb592" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5a3a8dec-58ad-4850-9ac3-eb4bdf4eb592" start_index="0" end="307ba168-7f8a-48a4-85e0-74b653ef8204" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="252c5ae9-5829-4bda-ab3c-f6e9b5dbcfb1" start_index="0" end="75f79936-c1ac-407a-8a04-139c357d1085" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="bee22016-f2c4-473a-bfa4-06f37ba3786b" start_index="0" end="252c5ae9-5829-4bda-ab3c-f6e9b5dbcfb1" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="75f79936-c1ac-407a-8a04-139c357d1085" start_index="0" end="f7c6eafc-f092-4c2a-acee-85ee1fb75740" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="554efdcf-b9c9-4af0-b914-6f056031f792" start_index="0" end="f7c6eafc-f092-4c2a-acee-85ee1fb75740" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="eed29e36-add3-4e60-9659-752e817dc5cd" start_index="0" end="cafb64db-d68c-467a-9d3f-6966ff6272b2" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="847fc6db-c764-4f52-8087-00000a08805b" start_index="0" end="bee22016-f2c4-473a-bfa4-06f37ba3786b" end_index="0" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="74beb031-88d3-41e4-9a68-323c183aaa78" annotationText="FLUX IO" left="-33.4306229598538" top="-392.715953993529" width="1615.93307435433" height="499.428445966817" fontSize="14" InitialTop="-362.715953993529" InitialHeight="499.428445966817" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="307ba168-7f8a-48a4-85e0-74b653ef8204" />
+      <Models ModelGuid="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" />
+      <Models ModelGuid="e312384f-d9dc-4270-a93c-cd7f29620045" />
+      <Models ModelGuid="cafb64db-d68c-467a-9d3f-6966ff6272b2" />
+      <Models ModelGuid="56d03270-ed71-467b-8998-b5f8e7ecee1c" />
+      <Models ModelGuid="5a3a8dec-58ad-4850-9ac3-eb4bdf4eb592" />
+      <Models ModelGuid="eed29e36-add3-4e60-9659-752e817dc5cd" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="6dcef669-888f-43bd-8d39-013b1ad85d87" annotationText="Parameter Expander" left="2147.54592893243" top="-624.669105219721" width="179" height="133" fontSize="14" InitialTop="-594.669105219721" InitialHeight="133" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="1be90737-598e-4821-94d7-7bb19ef1f935" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="b9f03a42-b85e-452b-a9a9-b0e120b3bb05" annotationText="Design Model" left="2881.60852562689" top="-1204.33671564634" width="185" height="175" fontSize="14" InitialTop="-1174.33671564634" InitialHeight="175" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="b9ef6f29-d60e-4634-941b-0787b2b1adee" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="944e8f43-1232-49b3-8f2a-0ca5661150e8" annotationText="FLUX IO" left="3334.5268302536" top="147.661771312124" width="1186.15179105932" height="439.190341831949" fontSize="14" InitialTop="177.661771312124" InitialHeight="439.190341831949" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="252c5ae9-5829-4bda-ab3c-f6e9b5dbcfb1" />
+      <Models ModelGuid="bee22016-f2c4-473a-bfa4-06f37ba3786b" />
+      <Models ModelGuid="75f79936-c1ac-407a-8a04-139c357d1085" />
+      <Models ModelGuid="554efdcf-b9c9-4af0-b914-6f056031f792" />
+      <Models ModelGuid="f7c6eafc-f092-4c2a-acee-85ee1fb75740" />
+      <Models ModelGuid="847fc6db-c764-4f52-8087-00000a08805b" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets>
+    <Dynamo.Graph.Presets.PresetModel Name="Preset1" Description="" guid="0e8f6a51-3c05-42d7-836f-9976f83239ac">
+      <CoreNodeModels.Input.DoubleSlider guid="fc522008-6088-485b-9cd9-ce716a9949b2" type="CoreNodeModels.Input.DoubleSlider" nickname="Real_Slider" x="728.54844563051" y="916.921511561609" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+        <System.Double>17.2</System.Double>
+        <Range min="0" max="100" step="0.1" />
+      </CoreNodeModels.Input.DoubleSlider>
+      <CoreNodeModels.Input.IntegerSlider guid="faa8ee32-952f-49d1-b416-81e6a3322056" type="CoreNodeModels.Input.IntegerSlider" nickname="Integer_Slider" x="741.366512157806" y="1000.23894398903" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+        <System.Int32>35</System.Int32>
+        <Range min="0" max="100" step="1" />
+      </CoreNodeModels.Input.IntegerSlider>
+    </Dynamo.Graph.Presets.PresetModel>
+    <Dynamo.Graph.Presets.PresetModel Name="Preset2" Description="" guid="6649ab58-5b54-4f6b-bab9-4f7a7cb08e12">
+      <CoreNodeModels.Input.DoubleSlider guid="fc522008-6088-485b-9cd9-ce716a9949b2" type="CoreNodeModels.Input.DoubleSlider" nickname="Real_Slider" x="728.54844563051" y="916.921511561609" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+        <System.Double>3.2</System.Double>
+        <Range min="0" max="100" step="0.1" />
+      </CoreNodeModels.Input.DoubleSlider>
+      <CoreNodeModels.Input.IntegerSlider guid="faa8ee32-952f-49d1-b416-81e6a3322056" type="CoreNodeModels.Input.IntegerSlider" nickname="Integer_Slider" x="741.366512157806" y="1000.23894398903" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+        <System.Int32>10</System.Int32>
+        <Range min="0" max="100" step="1" />
+      </CoreNodeModels.Input.IntegerSlider>
+    </Dynamo.Graph.Presets.PresetModel>
+  </Presets>
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="20.6896171569824" eyeY="47.3388442993164" eyeZ="89.1583023071289" lookX="-25.6896171569824" lookY="-36.3388442993164" lookZ="-97.1583023071289" upX="-0.0333657748997211" upY="0.991444885730743" upZ="-0.126189589500427" />
+  </Cameras>
+</Workspace>

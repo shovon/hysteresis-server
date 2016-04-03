@@ -1,0 +1,594 @@
+<Workspace Version="0.9.1.3872" X="599.384289763389" Y="388.144215620189" zoom="0.0727345239178993" Name="Home" Description="" RunType="Automatic" RunPeriod="1000" HasRunWithoutCrash="True">
+  <NamespaceResolutionMap>
+    <ClassMap partialName="Directory" resolvedName="DSCore.IO.Directory" assemblyName="DSCoreNodes.dll" />
+    <ClassMap partialName="Vector" resolvedName="Autodesk.DesignScript.Geometry.Vector" assemblyName="ProtoGeometry.dll" />
+    <ClassMap partialName="Point" resolvedName="Autodesk.DesignScript.Geometry.Point" assemblyName="ProtoGeometry.dll" />
+  </NamespaceResolutionMap>
+  <Elements>
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="cc7b9888-4d90-4a3d-829e-e551166615f8" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Cylinder.ByRadiusHeight" x="913.328184667944" y="-2719.42968503711" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Cylinder.ByRadiusHeight@Autodesk.DesignScript.Geometry.CoordinateSystem,double,double">
+      <PortInfo index="0" default="True" />
+      <PortInfo index="1" default="True" />
+      <PortInfo index="2" default="True" />
+    </Dynamo.Graph.Nodes.ZeroTouch.DSFunction>
+    <CoreNodeModels.Input.FileObject guid="e973636a-fcce-4dab-82a5-1f2b95da55fb" type="CoreNodeModels.Input.FileObject" nickname="File.FromPath" x="-1340.07555476524" y="-1334.37096099739" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" />
+    <CoreNodeModels.Input.Filename guid="8818d3fe-c3c7-46a5-9572-394eaaa84051" type="CoreNodeModels.Input.Filename" nickname="Java Session File" x="-1695.30328204963" y="-1327.82834330945" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.String>C:\Users\melkhaldi\ownCloud\SFU_SIAT\PhD_Projects\SG2016\implementation\EXAMPLE\session.JSON</System.String>
+    </CoreNodeModels.Input.Filename>
+    <CoreNodeModels.FromObject guid="e67dc621-fe40-4172-8566-aa48e8a5123f" type="CoreNodeModels.FromObject" nickname="String from Object" x="-1196.68608932408" y="-1343.41567409667" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" />
+    <CoreNodeModels.Input.Directory guid="792a0654-2f13-4340-8737-07789b8e90af" type="CoreNodeModels.Input.Directory" nickname="Design Vectors Dat Folder" x="-1525.42310425843" y="1731.05857856053" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.String>C:\Users\melkhaldi\ownCloud\SFU_SIAT\PhD_Projects\SG2016\implementation\EXAMPLE</System.String>
+    </CoreNodeModels.Input.Directory>
+    <CoreNodeModels.Input.BoolSelector guid="92c8539b-aecf-43e0-bf30-671f041e6af1" type="CoreNodeModels.Input.BoolSelector" nickname="SaveDesignVector&#xD;&#xA;" x="-1433.43903479252" y="1652.56033663336" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.Boolean>True</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+    <PythonNodeModels.PythonNode guid="03c23074-af76-41bf-b117-9abe149937b6" type="PythonNodeModels.PythonNode" nickname="Design Vector DAT Recorder" x="-1121.56322514086" y="1586.0595510887" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" inputcount="3">
+      <Script>import clr
+import sys
+sys.path.append(r"C:\Program Files (x86)\IronPython 2.7\\Lib")
+import os
+
+clr.AddReference('ProtoGeometry')
+clr.AddReference("System.Windows.Forms")
+clr.AddReference("System.Drawing")
+
+from Autodesk.DesignScript.Geometry import *
+from System.Drawing import Bitmap, Graphics, Size
+from System.Drawing.Imaging import ImageFormat
+from System.Windows.Forms import Screen
+
+
+dataEnteringNode = IN
+
+import json
+from System import Guid
+
+
+
+
+
+
+designVector =IN[0]
+trigger=IN[1]
+path_dir = IN[2]
+
+
+name = "designVectors"
+fileNameTXT = name + ".dat"
+filePathTXT = path_dir+ "\\" + fileNameTXT
+
+
+designVectorSTR = ""
+
+
+		
+
+# save JSON (python generic
+def saveJSON(data, filePathTXT):
+	if os.path.exists(filePathTXT):
+		f=open(filePathTXT,'a')
+	else:	
+		f=open(filePathTXT,'w')
+	f.write(str(data)+'\n')
+	f.close()
+	
+def setDict(designVector):
+	new_dict = dict()
+	for param in designVector:
+		new_dict[param[0]]=param[1]
+	return new_dict
+		
+		
+#run script
+def run():
+	new_dict = setDict(designVector)
+	saveJSON(new_dict, filePathTXT)
+	
+if(trigger):
+	run()
+#Assign your output to the OUT variable.
+OUT =  filePathTXT</Script>
+    </PythonNodeModels.PythonNode>
+    <CoreNodeModels.Input.BoolSelector guid="27ad4943-8b8b-4b24-bfbb-ad81952f8797" type="CoreNodeModels.Input.BoolSelector" nickname="SaveDesignVector To Gallery&#xD;&#xA;" x="1770.07750273801" y="-2327.53882807378" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.Boolean>True</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+    <PythonNodeModels.PythonNode guid="8901b0be-4a22-4e98-9ff2-5b5d7a70d9fc" type="PythonNodeModels.PythonNode" nickname="Gallery Entry" x="2184.91905489158" y="-2458.64188006668" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" inputcount="4">
+      <Script>import clr
+import sys
+sys.path.append(r"C:\Program Files (x86)\IronPython 2.7\\Lib")
+clr.AddReference('ProtoGeometry')
+clr.AddReference("System.Windows.Forms")
+clr.AddReference("System.Drawing")
+
+from Autodesk.DesignScript.Geometry import *
+from System.Drawing import Bitmap, Graphics, Size
+from System.Drawing.Imaging import ImageFormat
+from System.Windows.Forms import Screen
+
+
+dataEnteringNode = IN
+
+import json
+from System import Guid
+
+
+
+
+designParameters=IN[0]
+geometry = IN[1]
+trigger=IN[2]
+path_dir = IN[3]
+
+
+
+
+#global variables
+GUID=""
+fileNameJSON = ""
+fileNameCAD =""
+fileNameBMP = ""
+filePathJSON = ""
+filePathCAD = ""
+filePathBMP = ""
+
+
+#set file and path names.    
+def setFileNamesAndPaths():
+	global GUID
+	global fileNameJSON
+	global fileNameCAD
+	global fileNameBMP
+	global filePathJSON
+	global filePathCAD
+	global filePathBMP
+	
+	GUID = Guid.NewGuid().ToString('D');
+	fileNameJSON = GUID + ".json"
+	fileNameCAD = GUID + ".sat"
+	fileNameBMP = GUID + ".jpg"
+	filePathJSON = path_dir+ "\\" + fileNameJSON
+	filePathCAD = path_dir+ "\\" + fileNameCAD
+	filePathBMP = path_dir+ "\\" + fileNameBMP
+
+#save cad function (dynamo specific)
+def saveCAD():
+	Geometry.ExportToSAT(geometry, filePathCAD)
+    
+#save BMP (python generic)    
+def saveBMP():
+	width =Screen.PrimaryScreen.Bounds.Width
+	height=Screen.PrimaryScreen.Bounds.Height
+	bmp = Bitmap(width, height)
+	g = Graphics.FromImage(bmp)
+	g.CopyFromScreen(0, 0, 0, 0, bmp.Size)
+	g.Dispose()
+	bmp.Save(filePathBMP, ImageFormat.Jpeg )
+
+# save JSON (python generic
+def saveJSON():
+	data = {'image':fileNameBMP, 'uid':GUID,'params': buildParams(),'cad_file': fileNameCAD}
+	with open(filePathJSON,'w') as outfile:
+		json.dump(data, outfile, indent=2)
+
+def buildParams():
+	res={}
+	for i in range(len(designParameters)):
+		name = designParameters[i][0]
+		val = designParameters[i][1]
+		res.update({ name: float(val)})
+	return res
+#run script
+def run():
+	setFileNamesAndPaths()
+	saveCAD()
+	saveBMP()
+	saveJSON()
+	
+if(trigger):
+	run()
+#Assign your output to the OUT variable.
+OUT =  0</Script>
+    </PythonNodeModels.PythonNode>
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="1e7f2f47-2407-4f3c-9f48-fbe9135a3652" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Design Vector Expander (USER DEFINED)" x="-581.461831966763" y="-1387.04515728993" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" CodeText="l[0][1];&#xA;l[1][1];" ShouldFocus="false" />
+    <FluxPipe.Dynamo.NodeModels.ToFlux guid="0f08ecbd-9843-49d5-abe2-b0cf1d5ea4b2" type="FluxPipe.Dynamo.NodeModels.ToFlux" nickname="To Flux" x="2278.38224729375" y="1742.86895275607" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <PortInfo index="1" default="True" />
+    </FluxPipe.Dynamo.NodeModels.ToFlux>
+    <FluxPipe.Dynamo.NodeModels.FluxProjectKeys guid="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" type="FluxPipe.Dynamo.NodeModels.FluxProjectKeys" nickname="Data Keys" x="1487.97780231146" y="1764.44855828145" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" />
+    <FluxPipe.Dynamo.NodeModels.FluxModeSwitcher guid="e312384f-d9dc-4270-a93c-cd7f29620045" type="FluxPipe.Dynamo.NodeModels.FluxModeSwitcher" nickname="Flow Control" x="2054.75208952759" y="1674.56007272556" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <instance data="Constantly" />
+    </FluxPipe.Dynamo.NodeModels.FluxModeSwitcher>
+    <FluxPipe.Dynamo.NodeModels.FluxSelector guid="cafb64db-d68c-467a-9d3f-6966ff6272b2" type="FluxPipe.Dynamo.NodeModels.FluxSelector" nickname="Select Project" x="1213.74945648681" y="1770.40189074673" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <instance id="alzA1p5G90ojx2XNL" type="Flux.SDK.Types.FluxProject" />
+    </FluxPipe.Dynamo.NodeModels.FluxSelector>
+    <FluxPipe.Dynamo.NodeModels.FluxSelector guid="56d03270-ed71-467b-8998-b5f8e7ecee1c" type="FluxPipe.Dynamo.NodeModels.FluxSelector" nickname="Select Key" x="1731.16933099641" y="1743.58842698401" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <instance id="404837091a600aba6debf6c4ef5e8014" type="FluxPipe.Dynamo.Utilities.MyFluxKey" />
+    </FluxPipe.Dynamo.NodeModels.FluxSelector>
+    <FluxPipe.Dynamo.NodeModels.FromFlux guid="009ce9a9-35bc-4c94-8423-fb879fe18b70" type="FluxPipe.Dynamo.NodeModels.FromFlux" nickname="From Flux" x="2417.27499252023" y="1881.01611882958" isVisible="false" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <PortInfo index="1" default="True" />
+      <instance data="PD94bWwgdmVyc2lvbj0iMS4wIj8+DQo8QXJyYXlPZkFueVR5cGUgeG1sbnM6eHNkPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYSIgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSI+DQogIDxhbnlUeXBlIHhzaTp0eXBlPSJGbHV4QnJlcCI+DQogICAgPEZvcm1hdD5zYXQ8L0Zvcm1hdD4NCiAgICA8Q29udGVudD5OekF3SURBZ01TQXdJQ0FnSUNBZ0lDQWdJQ0FOQ2pRZ1RHbGlSeUF4T1NCQlUwMGdNakl4TGpBdU1DNHhPRGN4SUU1VUlESTBJRk4xYmlCTllYSWdNamNnTVRrNk5USTZNaklnTWpBeE5pQU5DakV3TURBZ09TNDVPVGs1T1RrNU9UazVPVGs1T1RrMVpTMHdNRGNnTVdVdE1ERXdJQTBLWW05a2VTQWtMVEVnTFRFZ0pDMHhJQ1F4SUNRdE1TQWtMVEVnSXcwS2JIVnRjQ0FrTFRFZ0xURWdKQzB4SUNRdE1TQWtNaUFrTUNBakRRcHphR1ZzYkNBa0xURWdMVEVnSkMweElDUXRNU0FrTFRFZ0pETWdKQzB4SUNReElDTU5DbVpoWTJVZ0pDMHhJQzB4SUNRdE1TQWtOQ0FrTlNBa01pQWtMVEVnSkRZZ1ptOXlkMkZ5WkNCemFXNW5iR1VnSXcwS1ptRmpaU0FrTFRFZ0xURWdKQzB4SUNRM0lDUTRJQ1F5SUNRdE1TQWtPU0JtYjNKM1lYSmtJSE5wYm1kc1pTQWpEUXBzYjI5d0lDUXRNU0F0TVNBa0xURWdKREV3SUNReE1TQWtNeUFqRFFwamIyNWxMWE4xY21aaFkyVWdKQzB4SUMweElDUXRNU0F3SURBZ01DNDFJREFnTUNBeElERWdNQ0F3SURFZ1NTQkpJREFnTVNBeElHWnZjbmRoY21RZ1NTQkpJRWtnU1NBakRRcG1ZV05sSUNRdE1TQXRNU0FrTFRFZ0pDMHhJQ1F4TWlBa01pQWtMVEVnSkRFeklHWnZjbmRoY21RZ2MybHVaMnhsSUNNTkNteHZiM0FnSkMweElDMHhJQ1F0TVNBa0xURWdKREUwSUNRMElDTU5DbkJzWVc1bExYTjFjbVpoWTJVZ0pDMHhJQzB4SUNRdE1TQXdJREFnTUNBd0lEQWdMVEVnTFRFZ01DQXdJR1p2Y25kaGNtUmZkaUJKSUVrZ1NTQkpJQ01OQ214dmIzQWdKQzB4SUMweElDUXRNU0FrTFRFZ0pERTFJQ1F6SUNNTkNtTnZaV1JuWlNBa0xURWdMVEVnSkMweElDUXhNU0FrTVRFZ0pERTBJQ1F4TmlCeVpYWmxjbk5sWkNBa05TQWtMVEVnSXcwS2JHOXZjQ0FrTFRFZ0xURWdKQzB4SUNRdE1TQWtNVGNnSkRjZ0l3MEtjR3hoYm1VdGMzVnlabUZqWlNBa0xURWdMVEVnSkMweElEQWdNQ0F4SURBZ01DQXhJREVnTUNBd0lHWnZjbmRoY21SZmRpQkpJRWtnU1NCSklDTU5DbU52WldSblpTQWtMVEVnTFRFZ0pDMHhJQ1F4TkNBa01UUWdKREV4SUNReE5pQm1iM0ozWVhKa0lDUTRJQ1F0TVNBakRRcGpiMlZrWjJVZ0pDMHhJQzB4SUNRdE1TQWtNVFVnSkRFMUlDUXhOeUFrTVRnZ2NtVjJaWEp6WldRZ0pERXdJQ1F0TVNBakRRcGxaR2RsSUNReE9TQXRNU0FrTFRFZ0pESXdJREFnSkRJd0lEWXVNamd6TVRnMU16QTNNVGM1TlRnMk1pQWtNVFFnSkRJeElHWnZjbmRoY21RZ1FEY2dkVzVyYm05M2JpQWpEUXBqYjJWa1oyVWdKQzB4SUMweElDUXRNU0FrTVRjZ0pERTNJQ1F4TlNBa01UZ2dabTl5ZDJGeVpDQWtNVElnSkMweElDTU5DbVZrWjJVZ0pESXlJQzB4SUNRdE1TQWtNak1nTUNBa01qTWdOaTR5T0RNeE9EVXpNRGN4TnprMU9EWXlJQ1F4TnlBa01qUWdabTl5ZDJGeVpDQkFOeUIxYm10dWIzZHVJQ01OQ25OMGNtbHVaMTloZEhSeWFXSXRibUZ0WlY5aGRIUnlhV0l0WjJWdUxXRjBkSEpwWWlBa0xURWdMVEVnSkMweElDUXRNU0FrTVRZZ2EyVmxjQ0JyWldWd1gydGxjSFFnYVdkdWIzSmxJR052Y0hrZ1FERXpJR1JwYldWdWMybHZibDkwWVdjZ1FERXlJSE4wWVhKMFgyTnBjbU5zWlNBakRRcDJaWEowWlhnZ0pDMHhJQzB4SUNRdE1TQWtNVFlnSkRJMUlDTU5DbVZzYkdsd2MyVXRZM1Z5ZG1VZ0pDMHhJQzB4SUNRdE1TQXdJREFnTUNBd0lEQWdMVEVnTVNBd0lEQWdNU0JKSUVrZ0l3MEtjM1J5YVc1blgyRjBkSEpwWWkxdVlXMWxYMkYwZEhKcFlpMW5aVzR0WVhSMGNtbGlJQ1F0TVNBdE1TQWtMVEVnSkMweElDUXhPQ0JyWldWd0lHdGxaWEJmYTJWd2RDQnBaMjV2Y21VZ1kyOXdlU0JBTVRNZ1pHbHRaVzV6YVc5dVgzUmhaeUJBTVRBZ1pXNWtYMk5wY21Oc1pTQWpEUXAyWlhKMFpYZ2dKQzB4SUMweElDUXRNU0FrTVRnZ0pESTJJQ01OQ21Wc2JHbHdjMlV0WTNWeWRtVWdKQzB4SUMweElDUXRNU0F3SURBZ01TQXdJREFnTVNBeElEQWdNQ0F4SUVrZ1NTQWpEUXB3YjJsdWRDQWtMVEVnTFRFZ0pDMHhJREVnTUNBd0lDTU5DbkJ2YVc1MElDUXRNU0F0TVNBa0xURWdNU0F3SURFZ0l3MEtSVzVrTFc5bUxVRkRTVk10WkdGMFlTQT08L0NvbnRlbnQ+DQogIDwvYW55VHlwZT4NCjwvQXJyYXlPZkFueVR5cGU+" key="401398f6828ee6dd947910be7854c4dc" />
+    </FluxPipe.Dynamo.NodeModels.FromFlux>
+    <FluxPipe.Dynamo.NodeModels.FluxSelector guid="cfdd75fa-3743-4d74-915c-fa66cc032dce" type="FluxPipe.Dynamo.NodeModels.FluxSelector" nickname="Select Key" x="1732.42065779758" y="1842.13398429431" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false">
+      <instance id="401398f6828ee6dd947910be7854c4dc" type="FluxPipe.Dynamo.Utilities.MyFluxKey" />
+    </FluxPipe.Dynamo.NodeModels.FluxSelector>
+    <FluxPipe.Dynamo.NodeModels.FluxModeSwitcher guid="c4aa2ed8-aecf-4a81-a6d9-b6356a79dadd" type="FluxPipe.Dynamo.NodeModels.FluxModeSwitcher" nickname="Flow Control" x="2082.54542185632" y="1925.37538715252" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <instance data="Constantly" />
+    </FluxPipe.Dynamo.NodeModels.FluxModeSwitcher>
+    <PythonNodeModels.PythonNode guid="760c59f0-777a-47e0-bf1c-9d39aa40c041" type="PythonNodeModels.PythonNode" nickname="CrossProduct Selector" x="1051.34586712003" y="2751.60009831151" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" inputcount="2">
+      <Script>import clr
+import itertools
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+parametersSets = IN[0]
+
+
+def fetchDesignParameterValues(parameterSets):
+	values = []
+	for parameter in parameterSets:
+		values.append( parameter[1])
+	return values
+
+def prefixDesignParameterNames(parameterSets, values):
+	prefixed=[]
+	for i in range(len(parameterSets)):
+		prefixed.append( [parameterSets[i][0], values[i]])
+	return prefixed
+
+def getCrossProduct(valList):
+	return list ( itertools.product(*valList))
+
+def getChoice(flatIndex, crossProduct):
+	if(flatIndex&gt;len(crossProduct)-1):
+		flatIndex = len(crossProduct)-1
+	return crossProduct[flatIndex]
+	
+def run():
+	valLists = fetchDesignParameterValues( IN[0])
+	crossProduct = getCrossProduct(valLists)
+	valList=getChoice(int(IN[1]), crossProduct)
+	res=prefixDesignParameterNames(IN[0], valList)
+	return res	
+
+#Assign your output to the OUT variable.
+OUT = run()</Script>
+    </PythonNodeModels.PythonNode>
+    <CoreNodeModels.Input.Directory guid="496d390d-7037-4968-8edd-aca16dcd9bf4" type="CoreNodeModels.Input.Directory" nickname="Gallery Dump" x="4031.57181966707" y="2899.77047134721" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.String>C:\Users\melkhaldi\ownCloud\SFU_SIAT\PhD_Projects\SG2016\implementation\EXAMPLE\dump</System.String>
+    </CoreNodeModels.Input.Directory>
+    <CoreNodeModels.Input.BoolSelector guid="0fb3e8fd-ed7b-494f-8ba3-341f8b6fa751" type="CoreNodeModels.Input.BoolSelector" nickname="SaveDesignVector To Gallery&#xD;&#xA;" x="4073.69532313842" y="2820.39470005414" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.Boolean>False</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+    <PythonNodeModels.PythonNode guid="ba3f9e43-8358-41eb-b918-53c1e06d39f1" type="PythonNodeModels.PythonNode" nickname="Gallery Entry" x="4674.43044130884" y="2703.24845069835" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" inputcount="4">
+      <Script>import clr
+import sys
+sys.path.append(r"C:\Program Files (x86)\IronPython 2.7\\Lib")
+clr.AddReference('ProtoGeometry')
+clr.AddReference("System.Windows.Forms")
+clr.AddReference("System.Drawing")
+
+from Autodesk.DesignScript.Geometry import *
+from System.Drawing import Bitmap, Graphics, Size
+from System.Drawing.Imaging import ImageFormat
+from System.Windows.Forms import Screen
+
+
+dataEnteringNode = IN
+
+import json
+from System import Guid
+
+
+
+
+designParameters=IN[0]
+geometry = IN[1]
+trigger=IN[2]
+path_dir = IN[3]
+
+
+
+
+#global variables
+GUID=""
+fileNameJSON = ""
+fileNameCAD =""
+fileNameBMP = ""
+filePathJSON = ""
+filePathCAD = ""
+filePathBMP = ""
+
+
+#set file and path names.    
+def setFileNamesAndPaths():
+	global GUID
+	global fileNameJSON
+	global fileNameCAD
+	global fileNameBMP
+	global filePathJSON
+	global filePathCAD
+	global filePathBMP
+	
+	GUID = Guid.NewGuid().ToString('D');
+	fileNameJSON = GUID + ".json"
+	fileNameCAD = GUID + ".sat"
+	fileNameBMP = GUID + ".jpg"
+	filePathJSON = path_dir+ "\\" + fileNameJSON
+	filePathCAD = path_dir+ "\\" + fileNameCAD
+	filePathBMP = path_dir+ "\\" + fileNameBMP
+
+#save cad function (dynamo specific)
+def saveCAD():
+	Geometry.ExportToSAT(geometry, filePathCAD)
+    
+#save BMP (python generic)    
+def saveBMP():
+	width =Screen.PrimaryScreen.Bounds.Width
+	height=Screen.PrimaryScreen.Bounds.Height
+	bmp = Bitmap(width, height)
+	g = Graphics.FromImage(bmp)
+	g.CopyFromScreen(0, 0, 0, 0, bmp.Size)
+	g.Dispose()
+	bmp.Save(filePathBMP, ImageFormat.Jpeg )
+
+# save JSON (python generic
+def saveJSON():
+	data = {'image':fileNameBMP, 'uid':GUID,'params': buildParams(),'cad_file': fileNameCAD}
+	with open(filePathJSON,'w') as outfile:
+		json.dump(data, outfile, indent=2)
+
+def buildParams():
+	res={}
+	for i in range(len(designParameters)):
+		name = designParameters[i][0]
+		val = designParameters[i][1]
+		res.update({ name: float(val)})
+	return res
+#run script
+def run():
+	setFileNamesAndPaths()
+	saveCAD()
+	saveBMP()
+	saveJSON()
+	
+if(trigger):
+	run()
+#Assign your output to the OUT variable.
+OUT =  0</Script>
+    </PythonNodeModels.PythonNode>
+    <CoreNodeModels.Input.Directory guid="3a77a3f9-4d64-4629-b9cd-cf765c5fd600" type="CoreNodeModels.Input.Directory" nickname="Gallery Dump" x="1769.83108472378" y="-2259.13174114259" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.String>C:\Users\melkhaldi\ownCloud\SFU_SIAT\PhD_Projects\SG2016\implementation\EXAMPLE\dump</System.String>
+    </CoreNodeModels.Input.Directory>
+    <CoreNodeModels.Input.IntegerSlider guid="032a6afd-8567-4f78-ae93-2cf8c88256d3" type="CoreNodeModels.Input.IntegerSlider" nickname="FlatIndex" x="644.613058536492" y="2853.83116717436" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.Int32>14</System.Int32>
+      <Range min="0" max="100" step="1" />
+    </CoreNodeModels.Input.IntegerSlider>
+    <PythonNodeModels.PythonNode guid="2bc9aaae-2002-40a7-b80d-fa84b3dbba0f" type="PythonNodeModels.PythonNode" nickname="Read JSON" x="-993.0369245942" y="-1359.13321500509" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" inputcount="1">
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+import sys
+sys.path.append(r"C:\Program Files (x86)\IronPython 2.7\\Lib")
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+
+import json
+
+filePath=IN[0]
+toLoad = open(filePath, "r").read()
+data = json.loads(toLoad)
+
+vals=[]
+
+for key in data["params"].keys():
+    vals.append( [key, data["params"][key]])
+
+#Assign your output to the OUT variable.
+OUT = vals</Script>
+    </PythonNodeModels.PythonNode>
+    <CoreNodeModels.Input.BoolSelector guid="f98d1d7d-6e18-4c55-aff2-b6f34fae5a0d" type="CoreNodeModels.Input.BoolSelector" nickname="Pull Gallery Kernels&#xD;&#xA;" x="-1334.60748385716" y="3007.26385146484" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.Boolean>True</System.Boolean>
+    </CoreNodeModels.Input.BoolSelector>
+    <CoreNodeModels.Input.Filename guid="550a275f-86e5-42ae-a68f-1fd5fb450930" type="CoreNodeModels.Input.Filename" nickname="Gallery Kernels" x="-1354.62982481136" y="3323.72288032879" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+      <System.String>C:\Users\melkhaldi\ownCloud\SFU_SIAT\PhD_Projects\SG2016\implementation\EXAMPLE\kernel.JSON</System.String>
+    </CoreNodeModels.Input.Filename>
+    <CoreNodeModels.Input.FileObject guid="5b558145-8f2d-4957-88d4-8721f8310b37" type="CoreNodeModels.Input.FileObject" nickname="File.FromPath" x="-969.742285912086" y="3270.89241444982" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" />
+    <CoreNodeModels.FromObject guid="c45117a5-13d0-445a-9bc1-aa78a5642859" type="CoreNodeModels.FromObject" nickname="String from Object" x="-814.360005199445" y="3234.69228857654" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" />
+    <PythonNodeModels.PythonNode guid="17c91f45-1d52-4f0a-8358-961a4df9606d" type="PythonNodeModels.PythonNode" nickname="Design Vector DAT Reader" x="-452.665166440761" y="2667.09209307444" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" inputcount="3">
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+#The inputs to this node will be stored as a list in the IN variable.
+dataEnteringNode = IN
+
+filePath = IN[0]
+arr=[]
+
+def create_dict(data):
+	vec_list = []
+	dict_of_vectors = dict()
+	for line in data:
+		vec_list.append(eval(line))
+	
+	for vector in vec_list:
+		for key in vector:
+			dict_of_vectors[key] = []
+	
+	for key in dict_of_vectors:
+		for vector in vec_list:
+			if key in vector:
+				dict_of_vectors[key].append(vector[key])
+	
+	return dict_of_vectors
+
+def create_arr_of_arrs(dict_of_vectors):
+	arr_of_arrs = []
+	for key in dict_of_vectors:
+		
+		arr_of_arrs.append([key,set(dict_of_vectors[key])])
+		
+	return arr_of_arrs
+	
+f = open(filePath, "r")
+dict_of_vectors = create_dict(f)
+arr = create_arr_of_arrs(dict_of_vectors)
+external=arr
+if(IN[2]):
+	external = IN[1]
+	for i in range(len(arr)):
+		external[i][1].extend(arr[i][1])
+
+
+#Assign your output to the OUT variable
+OUT = external</Script>
+    </PythonNodeModels.PythonNode>
+    <PythonNodeModels.PythonNode guid="5c696693-ae46-4b48-a576-5c0017a46225" type="PythonNodeModels.PythonNode" nickname="Read JSON" x="-591.813572915778" y="3184.54829291724" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" inputcount="1">
+      <Script>import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+import sys
+sys.path.append(r"C:\Program Files (x86)\IronPython 2.7\\Lib")
+#The inputs to this node will be stored as a list in the IN variables.
+dataEnteringNode = IN
+
+
+import json
+
+filePath=IN[0]
+toLoad = open(filePath, "r").read()
+data = json.loads(toLoad)
+
+vals=[]
+
+for key in data.keys():
+    vals.append( [key, data[key]])
+
+#Assign your output to the OUT variable.
+OUT = vals</Script>
+    </PythonNodeModels.PythonNode>
+    <FluxPipe.Dynamo.NodeModels.FluxProjects guid="0da8d395-bcfb-4afc-bc2d-c84bdac278a9" type="FluxPipe.Dynamo.NodeModels.FluxProjects" nickname="Flux Projects" x="1075.56573558797" y="1781.52752602849" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false" />
+    <Dynamo.Graph.Nodes.ZeroTouch.DSFunction guid="3ee7fbd9-7941-4bff-bf9c-7c6e2eceb550" type="Dynamo.Graph.Nodes.ZeroTouch.DSFunction" nickname="Geometry.Translate" x="3611.22669234248" y="1767.38623569433" isVisible="true" isUpstreamVisible="true" lacing="Shortest" isSelectedInput="False" IsFrozen="false" assembly="ProtoGeometry.dll" function="Autodesk.DesignScript.Geometry.Geometry.Translate@Autodesk.DesignScript.Geometry.Vector" />
+    <Dynamo.Graph.Nodes.CodeBlockNodeModel guid="ef5e9e08-a0aa-4a6f-9a25-7070f84fafe4" type="Dynamo.Graph.Nodes.CodeBlockNodeModel" nickname="Code Block" x="2927.38990417941" y="1641.44267118422" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="False" IsFrozen="false" CodeText="Vector.ByTwoPoints(Point.ByCoordinates(0,0,0), Point.ByCoordinates(0,20,0));" ShouldFocus="false" />
+  </Elements>
+  <Connectors>
+    <Dynamo.Graph.Connectors.ConnectorModel start="cc7b9888-4d90-4a3d-829e-e551166615f8" start_index="0" end="8901b0be-4a22-4e98-9ff2-5b5d7a70d9fc" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e973636a-fcce-4dab-82a5-1f2b95da55fb" start_index="0" end="e67dc621-fe40-4172-8566-aa48e8a5123f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="8818d3fe-c3c7-46a5-9572-394eaaa84051" start_index="0" end="e973636a-fcce-4dab-82a5-1f2b95da55fb" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e67dc621-fe40-4172-8566-aa48e8a5123f" start_index="0" end="2bc9aaae-2002-40a7-b80d-fa84b3dbba0f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="792a0654-2f13-4340-8737-07789b8e90af" start_index="0" end="03c23074-af76-41bf-b117-9abe149937b6" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="92c8539b-aecf-43e0-bf30-671f041e6af1" start_index="0" end="03c23074-af76-41bf-b117-9abe149937b6" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="03c23074-af76-41bf-b117-9abe149937b6" start_index="0" end="17c91f45-1d52-4f0a-8358-961a4df9606d" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="27ad4943-8b8b-4b24-bfbb-ad81952f8797" start_index="0" end="8901b0be-4a22-4e98-9ff2-5b5d7a70d9fc" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1e7f2f47-2407-4f3c-9f48-fbe9135a3652" start_index="0" end="cc7b9888-4d90-4a3d-829e-e551166615f8" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="1e7f2f47-2407-4f3c-9f48-fbe9135a3652" start_index="1" end="cc7b9888-4d90-4a3d-829e-e551166615f8" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" start_index="0" end="cfdd75fa-3743-4d74-915c-fa66cc032dce" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" start_index="0" end="56d03270-ed71-467b-8998-b5f8e7ecee1c" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="e312384f-d9dc-4270-a93c-cd7f29620045" start_index="0" end="0f08ecbd-9843-49d5-abe2-b0cf1d5ea4b2" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="cafb64db-d68c-467a-9d3f-6966ff6272b2" start_index="0" end="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="56d03270-ed71-467b-8998-b5f8e7ecee1c" start_index="0" end="0f08ecbd-9843-49d5-abe2-b0cf1d5ea4b2" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="009ce9a9-35bc-4c94-8423-fb879fe18b70" start_index="0" end="ba3f9e43-8358-41eb-b918-53c1e06d39f1" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="009ce9a9-35bc-4c94-8423-fb879fe18b70" start_index="0" end="3ee7fbd9-7941-4bff-bf9c-7c6e2eceb550" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="cfdd75fa-3743-4d74-915c-fa66cc032dce" start_index="0" end="009ce9a9-35bc-4c94-8423-fb879fe18b70" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c4aa2ed8-aecf-4a81-a6d9-b6356a79dadd" start_index="0" end="009ce9a9-35bc-4c94-8423-fb879fe18b70" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="760c59f0-777a-47e0-bf1c-9d39aa40c041" start_index="0" end="ba3f9e43-8358-41eb-b918-53c1e06d39f1" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="496d390d-7037-4968-8edd-aca16dcd9bf4" start_index="0" end="ba3f9e43-8358-41eb-b918-53c1e06d39f1" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0fb3e8fd-ed7b-494f-8ba3-341f8b6fa751" start_index="0" end="ba3f9e43-8358-41eb-b918-53c1e06d39f1" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="3a77a3f9-4d64-4629-b9cd-cf765c5fd600" start_index="0" end="8901b0be-4a22-4e98-9ff2-5b5d7a70d9fc" end_index="3" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="032a6afd-8567-4f78-ae93-2cf8c88256d3" start_index="0" end="760c59f0-777a-47e0-bf1c-9d39aa40c041" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2bc9aaae-2002-40a7-b80d-fa84b3dbba0f" start_index="0" end="03c23074-af76-41bf-b117-9abe149937b6" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2bc9aaae-2002-40a7-b80d-fa84b3dbba0f" start_index="0" end="0f08ecbd-9843-49d5-abe2-b0cf1d5ea4b2" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2bc9aaae-2002-40a7-b80d-fa84b3dbba0f" start_index="0" end="8901b0be-4a22-4e98-9ff2-5b5d7a70d9fc" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="2bc9aaae-2002-40a7-b80d-fa84b3dbba0f" start_index="0" end="1e7f2f47-2407-4f3c-9f48-fbe9135a3652" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="f98d1d7d-6e18-4c55-aff2-b6f34fae5a0d" start_index="0" end="17c91f45-1d52-4f0a-8358-961a4df9606d" end_index="2" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="550a275f-86e5-42ae-a68f-1fd5fb450930" start_index="0" end="5b558145-8f2d-4957-88d4-8721f8310b37" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5b558145-8f2d-4957-88d4-8721f8310b37" start_index="0" end="c45117a5-13d0-445a-9bc1-aa78a5642859" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="c45117a5-13d0-445a-9bc1-aa78a5642859" start_index="0" end="5c696693-ae46-4b48-a576-5c0017a46225" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="17c91f45-1d52-4f0a-8358-961a4df9606d" start_index="0" end="760c59f0-777a-47e0-bf1c-9d39aa40c041" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="5c696693-ae46-4b48-a576-5c0017a46225" start_index="0" end="17c91f45-1d52-4f0a-8358-961a4df9606d" end_index="1" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="0da8d395-bcfb-4afc-bc2d-c84bdac278a9" start_index="0" end="cafb64db-d68c-467a-9d3f-6966ff6272b2" end_index="0" portType="0" />
+    <Dynamo.Graph.Connectors.ConnectorModel start="ef5e9e08-a0aa-4a6f-9a25-7070f84fafe4" start_index="0" end="3ee7fbd9-7941-4bff-bf9c-7c6e2eceb550" end_index="1" portType="0" />
+  </Connectors>
+  <Notes />
+  <Annotations>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="8c21f200-3f66-477a-8463-3b0985bf0369" annotationText="Params Temp Recorder" left="-1535.42310425843" top="1556.0595510887" width="609.85987911757" height="270.999027471828" fontSize="14" InitialTop="1586.0595510887" InitialHeight="270.999027471828" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="792a0654-2f13-4340-8737-07789b8e90af" />
+      <Models ModelGuid="92c8539b-aecf-43e0-bf30-671f041e6af1" />
+      <Models ModelGuid="03c23074-af76-41bf-b117-9abe149937b6" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="5b9609c7-b00d-468b-8ceb-693fc7bf7706" annotationText="Params Temp Reader (Can Read Gallery Kernl Too)" left="-1364.62982481136" top="2637.09209307444" width="1094.9646583706" height="782.630787254347" fontSize="14" InitialTop="2667.09209307444" InitialHeight="782.630787254347" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="f98d1d7d-6e18-4c55-aff2-b6f34fae5a0d" />
+      <Models ModelGuid="550a275f-86e5-42ae-a68f-1fd5fb450930" />
+      <Models ModelGuid="5b558145-8f2d-4957-88d4-8721f8310b37" />
+      <Models ModelGuid="c45117a5-13d0-445a-9bc1-aa78a5642859" />
+      <Models ModelGuid="17c91f45-1d52-4f0a-8358-961a4df9606d" />
+      <Models ModelGuid="5c696693-ae46-4b48-a576-5c0017a46225" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="d4ecd75a-7eb0-4447-af25-de7329c9cf72" annotationText="Cross Product Generator/Selector" left="634.613058536492" top="2721.60009831151" width="574.732808583538" height="200.231068862851" fontSize="14" InitialTop="2751.60009831151" InitialHeight="200.231068862851" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="760c59f0-777a-47e0-bf1c-9d39aa40c041" />
+      <Models ModelGuid="032a6afd-8567-4f78-ae93-2cf8c88256d3" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="b8a27282-0811-496b-a65c-c694408acaaf" annotationText="FLUX IO" left="1065.56573558797" top="1644.56007272556" width="1494.70925693226" height="403.81531442696" fontSize="14" InitialTop="1674.56007272556" InitialHeight="403.81531442696" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="0f08ecbd-9843-49d5-abe2-b0cf1d5ea4b2" />
+      <Models ModelGuid="a2c4661d-d54e-4ddc-bb07-0f8e9c7acd2f" />
+      <Models ModelGuid="e312384f-d9dc-4270-a93c-cd7f29620045" />
+      <Models ModelGuid="cafb64db-d68c-467a-9d3f-6966ff6272b2" />
+      <Models ModelGuid="56d03270-ed71-467b-8998-b5f8e7ecee1c" />
+      <Models ModelGuid="cfdd75fa-3743-4d74-915c-fa66cc032dce" />
+      <Models ModelGuid="c4aa2ed8-aecf-4a81-a6d9-b6356a79dadd" />
+      <Models ModelGuid="0da8d395-bcfb-4afc-bc2d-c84bdac278a9" />
+      <Models ModelGuid="009ce9a9-35bc-4c94-8423-fb879fe18b70" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="e2aa3ee8-5e20-4914-bb0c-b8369d978997" annotationText="FLUX Geometry OUTPUT FROM REMOTE" left="2917.38990417941" top="1611.44267118422" width="885.836788163073" height="274.943564510108" fontSize="14" InitialTop="1641.44267118422" InitialHeight="274.943564510108" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="3ee7fbd9-7941-4bff-bf9c-7c6e2eceb550" />
+      <Models ModelGuid="ef5e9e08-a0aa-4a6f-9a25-7070f84fafe4" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="45605d9a-6bf0-479a-aad8-26fc7e123575" annotationText="Save FLUX Geometry To Gallery" left="4021.57181966707" top="2673.24845069835" width="786.858621641771" height="322.522020648863" fontSize="14" InitialTop="2703.24845069835" InitialHeight="322.522020648863" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="496d390d-7037-4968-8edd-aca16dcd9bf4" />
+      <Models ModelGuid="0fb3e8fd-ed7b-494f-8ba3-341f8b6fa751" />
+      <Models ModelGuid="ba3f9e43-8358-41eb-b918-53c1e06d39f1" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="7b41def2-e42f-4663-b565-e371603590ed" annotationText="Save Local Exploration To Gallery" left="1759.83108472378" top="-2488.64188006668" width="559.087970167796" height="325.51013892409" fontSize="14" InitialTop="-2458.64188006668" InitialHeight="325.51013892409" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="27ad4943-8b8b-4b24-bfbb-ad81952f8797" />
+      <Models ModelGuid="8901b0be-4a22-4e98-9ff2-5b5d7a70d9fc" />
+      <Models ModelGuid="3a77a3f9-4d64-4629-b9cd-cf765c5fd600" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="f44b80ca-4061-4331-bd0f-63a0cd31a97c" annotationText="Design Model" left="903.328184667944" top="-2749.42968503711" width="185" height="175" fontSize="14" InitialTop="-2719.42968503711" InitialHeight="175" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="cc7b9888-4d90-4a3d-829e-e551166615f8" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="10726a29-fa00-40db-bb65-86101a3c2364" annotationText="Java Session Reader" left="-1705.30328204963" top="-1389.13321500509" width="846.26635745543" height="157.304871695643" fontSize="14" InitialTop="-1359.13321500509" InitialHeight="157.304871695643" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="e973636a-fcce-4dab-82a5-1f2b95da55fb" />
+      <Models ModelGuid="8818d3fe-c3c7-46a5-9572-394eaaa84051" />
+      <Models ModelGuid="e67dc621-fe40-4172-8566-aa48e8a5123f" />
+      <Models ModelGuid="2bc9aaae-2002-40a7-b80d-fa84b3dbba0f" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+    <Dynamo.Graph.Annotations.AnnotationModel guid="19843b5e-e9d8-48da-b716-d68ba22e0d86" annotationText="Java Session Paramer Expander" left="-591.461831966763" top="-1417.04515728993" width="281" height="133" fontSize="14" InitialTop="-1387.04515728993" InitialHeight="133" TextblockHeight="20" backgrouund="#FFC1D676">
+      <Models ModelGuid="1e7f2f47-2407-4f3c-9f48-fbe9135a3652" />
+    </Dynamo.Graph.Annotations.AnnotationModel>
+  </Annotations>
+  <Presets>
+    <Dynamo.Graph.Presets.PresetModel Name="Preset1" Description="" guid="0e8f6a51-3c05-42d7-836f-9976f83239ac">
+      <CoreNodeModels.Input.DoubleSlider guid="fc522008-6088-485b-9cd9-ce716a9949b2" type="CoreNodeModels.Input.DoubleSlider" nickname="Real_Slider" x="728.54844563051" y="916.921511561609" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+        <System.Double>17.2</System.Double>
+        <Range min="0" max="100" step="0.1" />
+      </CoreNodeModels.Input.DoubleSlider>
+      <CoreNodeModels.Input.IntegerSlider guid="faa8ee32-952f-49d1-b416-81e6a3322056" type="CoreNodeModels.Input.IntegerSlider" nickname="Integer_Slider" x="741.366512157806" y="1000.23894398903" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+        <System.Int32>35</System.Int32>
+        <Range min="0" max="100" step="1" />
+      </CoreNodeModels.Input.IntegerSlider>
+    </Dynamo.Graph.Presets.PresetModel>
+    <Dynamo.Graph.Presets.PresetModel Name="Preset2" Description="" guid="6649ab58-5b54-4f6b-bab9-4f7a7cb08e12">
+      <CoreNodeModels.Input.DoubleSlider guid="fc522008-6088-485b-9cd9-ce716a9949b2" type="CoreNodeModels.Input.DoubleSlider" nickname="Real_Slider" x="728.54844563051" y="916.921511561609" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+        <System.Double>3.2</System.Double>
+        <Range min="0" max="100" step="0.1" />
+      </CoreNodeModels.Input.DoubleSlider>
+      <CoreNodeModels.Input.IntegerSlider guid="faa8ee32-952f-49d1-b416-81e6a3322056" type="CoreNodeModels.Input.IntegerSlider" nickname="Integer_Slider" x="741.366512157806" y="1000.23894398903" isVisible="true" isUpstreamVisible="true" lacing="Disabled" isSelectedInput="True" IsFrozen="false">
+        <System.Int32>10</System.Int32>
+        <Range min="0" max="100" step="1" />
+      </CoreNodeModels.Input.IntegerSlider>
+    </Dynamo.Graph.Presets.PresetModel>
+  </Presets>
+  <Cameras>
+    <Camera Name="Background Preview" eyeX="3.21584677696228" eyeY="24.0460338592529" eyeZ="16.9950332641602" lookX="-3.7635543346405" lookY="-18.1019077301025" lookZ="-24.2812786102295" upX="-0.0622995272278786" upY="0.913545489311218" upZ="-0.401937156915665" />
+  </Cameras>
+</Workspace>
